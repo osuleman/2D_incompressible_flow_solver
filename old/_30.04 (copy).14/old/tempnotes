@@ -1,0 +1,9 @@
+cd  /usr/local/include/vtk-6.1/
+
+
+
+export VTKINCDIR=/usr/local/include/vtk-6.1/
+export VTKLIBDIR=/usr/local/lib/ (or /usr/local/lib/vtk-6.1
+export LD_LIBRARY_PATH=$VTKLIBDIR&#58;$LD_LIBRARY_PATH
+
+-/usr/local/include/vtk-6.1/

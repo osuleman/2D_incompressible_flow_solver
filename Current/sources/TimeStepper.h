@@ -1,0 +1,18 @@
+class TimeStepper
+{
+
+	double ti,tf,dt,cfl;
+	int dumpPeriod;
+	Grid grid;	 
+
+
+public:
+	TimeStepper(double tiSpec, double tfSpec, int nxSpec,int nySpec, double lSpec, double wSpec, double lRefSpec, double uRefSpec);
+	void Run(double cflSpec, int dumpPeriodSpec);
+};
+
+
+
+
+
+

@@ -1,0 +1,6 @@
+class TestClass
+{
+    std::vector<Grid> meshes;
+public:
+    TestClass( int size ) : meshes( size ) {}
+};

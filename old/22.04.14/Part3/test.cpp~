@@ -1,0 +1,15 @@
+#include <iostream>
+#include <fstream>
+#include <cmath> 
+using namespace std;
+
+
+int main()
+{
+int nx = 5;
+int ny = 5;
+
+double x[nx][ny] = {};
+
+return 0;
+}

@@ -1,0 +1,3 @@
+/home/omar/Documents/Programming/C++/FCFD/Current/sources/CMakeFiles/GridRefinementStudy.dir
+/home/omar/Documents/Programming/C++/FCFD/Current/sources/CMakeFiles/Main.dir
+/home/omar/Documents/Programming/C++/FCFD/Current/sources/CMakeFiles/clean-all.dir

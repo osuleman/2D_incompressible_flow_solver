@@ -1,0 +1,36 @@
+#include <iostream>
+#include <fstream>
+#include <cmath> 
+using namespace std;
+
+
+class Grid
+
+protected:
+
+	const int nx, ny
+	FluidElement nodes[nx][ny]
+
+public:
+
+	Grid(int nxSpec, int nySpec)
+
+
+
+Grid::Grid(int nxSpec, int nySpec)
+{
+	nx = nxSpec;
+	ny = nySpec;
+
+
+	for (int k = 0 ; k <= nx - 1 ; k++)
+	{
+		for (int l = 0 ; l <= ny - 1 ; l++)
+		{
+	nodes[k][l] =
+
+
+}
+
+	 
+	

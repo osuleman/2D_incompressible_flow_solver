@@ -1,0 +1,92 @@
+##################################################################################################
+##                                                                                              ##
+##  This is a makefile for a simple VTK program                                                 ##
+##                                                                                              ##
+##  Usage:                                                                                      ##
+##     "make"       -> Compiles an optimized version of the ray tracer, using g++.  The         ##
+##                     executable created is defined by EXENAME, below.                         ## 
+##                                                                                              ##
+##     "make clean" -> Removes all temporary files.                                             ##
+##                                                                                              ##
+##                                                                                              ##
+##  Chris Wyman (January 2, 2007)                                                               ##
+##################################################################################################
+
+
+##################################################################################################
+##                                                                                              ##
+## To change the name of the executable, modify the following line.                             ##
+##                                                                                              ##
+##################################################################################################
+
+EXENAME = VTKTest
+
+##################################################################################################
+##                                                                                              ##
+## Include all .c, .cpp, .C, .cxx, .cc files that you would like to compile into your           ##
+##    executable on the line below.                                                             ## 
+##                                                                                              ##
+##################################################################################################
+
+SOURCE = VTKTest.cpp
+
+##################################################################################################
+##                                                                                              ##
+## The following lines should specify the locations of the VTK headers and library (.a) files.  ##
+##     On the lab machines in MacLean Hall 301, you should not need to change these.            ##
+##                                                                                              ##
+##################################################################################################
+
+VTKLIBS = /group/graphics/lib/
+VTKINCLUDE = /group/graphics/include/vtk-5.0/
+
+##################################################################################################
+##                                                                                              ##
+## You shouldn't need to change anything below, unless you want to change where compiled files  ##
+##    are stored or if you need to change the compilation flags or libraries.                   ##
+##                                                                                              ##	
+##################################################################################################
+
+# The C++ compiler
+CC = g++
+
+# Directories to search for includes and libraries
+INCLUDES = -I. -I /usr/X11R6/include/ -I $(VTKINCLUDE)
+
+# Set the Flags passed to the compiler & linker. 
+#   In the first case, we use optimizations.  If debugging is on,
+#   we do not use optimizations, and we enable the profiler.
+LDFLAGS = -L $(VTKLIBS) -L /usr/X11R6/lib64/ -L /usr/X11R6/lib/
+CCFLAGS = -Wno-deprecated -O3 
+EXE = $(EXENAME)
+
+# The linked libraries
+LIBS = -lvtkWidgets -lvtkRendering -lvtkImaging -lvtkGraphics -lvtkFiltering \
+       -lvtkGenericFiltering -lvtkHybrid -lvtkIO -lvtkftgl -lvtkVolumeRendering -lvtkNetCDF \
+       -lvtkDICOMParser -lvtkCommon -lvtkexoIIc -lvtkexpat -lvtkfreetype -lvtkjpeg \
+       -lvtkpng -lvtksys -lvtktiff -lvtkzlib -lGL -lGLU -lX11 -lXmu -lXi -lm -lpthread
+
+# A list of objects (replace .cpp with .o)
+OBJS = $(SOURCE:.cpp=.o)
+
+# A list of all the objects w/o their relative directory names
+BASEOBJ = $(notdir $(OBJS))
+
+# A list of the .o files, which are stored in obj/
+FINALOBJ = $(addprefix obj/,$(BASEOBJ))
+
+# The default make rule
+default: $(SOURCE) $(EXE) 
+
+$(EXE): obj/ $(FINALOBJ) 
+	$(CC) $(LDFLAGS) $(FINALOBJ) $(LIBS) -o $@
+
+obj/%.o: %.cpp
+	$(CC) -c $(CCFLAGS) $(INCLUDES) $< -o $@
+
+obj/:
+	mkdir obj
+	
+clean:
+	rm -f $(addprefix obj/,$(BASEOBJ)) $(EXE)
+

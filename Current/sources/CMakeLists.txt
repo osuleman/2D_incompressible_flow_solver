@@ -1,0 +1,16 @@
+#set(VTK_DIR "~/Documents/Programming/VTK/VTK-6.1.0/VTK_Build")
+set(CMAKE_C_FLAGS "-Wall -g -std=c++0x")
+set(CMAKE_BUILD_TYPE Debug)
+find_package(VTK REQUIRED)
+include(${VTK_USE_FILE})
+file( GLOB SOURCES *.h *.cpp)
+add_executable(Main ${SOURCES})
+target_link_libraries(Main ${VTK_LIBRARIES})
+add_executable(GridRefinementStudy ${SOURCES})
+target_link_libraries(GridRefinementStudy ${VTK_LIBRARIES})
+
+
+add_custom_target(clean-all
+   COMMAND ${CMAKE_BUILD_TOOL} clean
+   COMMAND ${CMAKE_COMMAND} -P clean-all.cmake
+)

@@ -1,0 +1,38 @@
+#include <iostream>
+#include <fstream>
+#include <cmath> 
+#include <assert.h> 
+#include <string>
+
+#include <vtkVersion.h>
+#include <vtkSmartPointer.h>
+#include <vtkXMLImageDataWriter.h>
+#include <vtkImageData.h>
+#include <vtkPointData.h>
+#include <vtkDoubleArray.h>
+
+#include "FluidElement.h"
+#include "Grid.h"
+#include "TestCase.h"
+
+using namespace std;
+
+
+
+
+// Constructor for steady TestCase
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+TestCase::TestCase(const int numGridsSpec) : meshes(numGridSpec)
+{
+ cout << "hurray!" << endl;
+}
+
+
+
+
+int TestCase::GetNumGrids() const
+{
+    return static_cast<int>( meshes.size() );
+}
