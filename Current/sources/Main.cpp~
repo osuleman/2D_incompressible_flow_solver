@@ -44,19 +44,19 @@ for (int i = 0; i <= nOmega-1; i ++)
 
 */
 //grid params
-int nx        = 30;
-int ny        = 30;
+int nx        = 25;
+int ny        = 25;
 double length = 1;
 double width  = 1;
 double lRef   = length;
 
 double ti = 0;
-double tf = 10;
-double reynolds = 10;
-double cfl = 0.2;
+double tf = 60;
+double reynolds = 1000;
+double cfl = 0.1;
 double tol = pow(10,-10);
 double omega = 1;
-double dumpPeriod = 1;
+double dumpPeriod = 5;
 std::string filename = "results/test";
 
 double vLbc, vRbc, uTbc, uBbc;
@@ -66,16 +66,17 @@ vLbc = 0;
 vRbc = 0;
 uTbc = 1;
 uBbc = 0;
-double uRef   = uTbc;
+double uRef   = 1;
 
 
 Grid grid(nx,ny,length,width,lRef,uRef);
-grid.define_wall_velocities(vLbc,vRbc,uTbc,uBbc);
+grid.set_boundary_velocities(vLbc,vRbc,uTbc,uBbc);
 
    double L = grid.get("length");
    double W = grid.get("width");	
    double xkl, ykl, zetaInitial, psiInitial;
-   // set IC, psiManu and rhsPsi(psiManu)
+   
+   // set IC for zeta and psi (interior points)
    for (int l = 1 ; l <= ny - 2 ; l++)
    { 
     for (int k = 1 ; k <= nx - 2 ; k++)	
@@ -93,7 +94,7 @@ grid.define_wall_velocities(vLbc,vRbc,uTbc,uBbc);
 
    }
    // set BC
-   grid.set_psi_bc();
+   grid.set_psi_bc("diri",0.0,0.0,0.0,0.0);
    grid.set_zeta_bc();
 
 

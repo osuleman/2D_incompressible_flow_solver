@@ -21,7 +21,7 @@ public:
 	double get(std::string);	
 	void set_psi_bc(std::string,double, double, double, double);
 	void set_zeta_bc(std::string, double, double, double, double);
-	void define_wall_velocities(double,double,double,double);
+	void set_boundary_velocities(double,double,double,double);
 	void set_psi_bc();	
 	void set_zeta_bc();	
 	double diff(int, int, std::string, std::string, int);	

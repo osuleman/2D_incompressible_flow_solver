@@ -227,29 +227,6 @@ void Grid::set(std::string var, double val)
  {
 	val = t;	
  }
-
- else if(var.compare("uLeft") == 0)	
- {
-	val = uBC[0];	
- }
-
- else if(var.compare("uRight") == 0)	
- {
-	val = uBC[1];	
- }
-
- else if(var.compare("uTop") == 0)	
- {
- 	val = uBC[2];	
- }
-
- else if(var.compare("uBottom") == 0)	
- {
-	val = uBC[3];	
- }
-
-
-
  else 
  {
 	cout << "Invalid get_var selection (select: length,width,t,uLeft,uRight,uTop,Ubottom) "  << 	endl;
@@ -384,13 +361,31 @@ void Grid::set_zeta_bc(std::string type, double zetaLbc, double zetaRbc, double 
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void Grid::define_wall_velocities(double uLeft, double uRight, double uTop, double uBottom)
+void Grid::set_boundary_velocities(double vLeft, double vRight, double uTop, double uBottom)
 {
-  uBC[0] = uLeft;
-  uBC[1] = uRight;
-  uBC[2] = uTop;
-  uBC[3] = uBottom;
+ // set top and bottom
+ for (int k = 1 ; k <= nx - 2 ; k++)
+ {
+  // set top boundary velocity
+  nodes[k][0].u    = uBottom/uRef;
+  nodes[k][0].v    = 0;
+
+  // set bottom boundary velocity
+  nodes[k][ny-1].u = uTop/uRef;
+  nodes[k][ny-1].v = 0;
+ }
+ for (int l = 0 ; l <= ny - 1 ; l++)
+ {
+  // set left boundary velocity
+  nodes[0][l].u = 0;
+  nodes[0][l].v = vLeft/uRef;
+
+  // set right boundary velocity
+  nodes[nx-1][l].u = 0;
+  nodes[nx-1][l].v = vRight/uRef;
+ }	
 }
+
 
 
 //CALC PSI ERROR
@@ -432,14 +427,14 @@ void Grid::set_psi_bc()
  // set top and bottom
  for (int k = 0 ; k <= nx - 1 ; k++)
  {
-  nodes[k][0].psi    = 0;
-  nodes[k][ny-1].psi = nodes[k][ny-1].pos[1]*uBC[2];
+  nodes[k][0].psi    = nodes[k][0].u*dx + nodes[k][1].psi;
+  nodes[k][ny-1].psi = nodes[k][ny-1].u*dx + nodes[k][ny-2].psi;
  }
- for (int l = 0 ; l <= ny - 1 ; l++)
+ for (int l = 1 ; l <= ny - 2 ; l++)
  {
   // set left and right
-  nodes[0][l].psi    = 0;
-  nodes[nx-1][l].psi = 0;
+  nodes[0][l].psi    = nodes[0][l].v*dy + nodes[1][l].psi;
+  nodes[nx-1][l].psi = nodes[nx-1][l].v*dy + nodes[nx-2][l].psi;
  }	
 }
 
@@ -451,16 +446,16 @@ void Grid::set_zeta_bc()
   // set top and bottom
   for (int k = 0 ; k <= nx - 1 ; k++)
   {
-   nodes[k][0].zeta    =  2*(0 - nodes[k][1].psi)/dy/dy;
-   nodes[k][ny-1].zeta =  2*(0 - nodes[k][ny-2].psi - dy*uBC[2]/uRef)/dy/dy;
+   nodes[k][0].zeta    =  2*(nodes[k][0].psi - nodes[k][1].psi + dy*nodes[k][0].u/uRef)/dy/dy;
+   nodes[k][ny-1].zeta =  2*(nodes[k][ny-1].psi - nodes[k][ny-2].psi - dy*nodes[k][ny-1].u/uRef)/dy/dy;
   }
 
 
-  for (int l = 0; l <= ny - 1 ; l++)
+  for (int l = 1; l <= ny - 2; l++)
   {
    // set left and right
-   nodes[0][l].zeta    =  2*(0 - nodes[1][l].psi)/dx/dx;
-   nodes[nx-1][l].zeta =  2*(0 - nodes[nx-2][l].psi)/dx/dx;
+   nodes[0][l].zeta    =  2*(nodes[0][l].psi - nodes[1][l].psi - dx*nodes[0][l].v/uRef)/dx/dx;
+   nodes[nx-1][l].zeta =  2*(nodes[nx-1][l].psi - nodes[nx-2][l].psi + dx*nodes[nx-1][l].v/uRef)/dx/dx;
   }	
 
 
@@ -470,74 +465,7 @@ void Grid::set_zeta_bc()
 
 
 
-
-// SOLVE FOR PSI IN POISSON EQUATION 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-int Grid::solve_poisson(double tol,double omega)
-{
-
-// initialize residualPsi and iterations
-	double residualPsiMax = tol;
-	double residualPsiCum = 0;
-	double residualPsiI   = 0;
-	iterations = 0;
-
-	
-
-// Initialize Stensil Variables
-	double beta = dx/dy;	
-	double psi_new = 0;
-	double psikl   = 0;	
-	double psikp1l = 0;
-	double psikm1l = 0;	
-	double psiklp1 = 0;
-	double psiklm1 = 0;
-	double rhs     = 0;
-
-
-	while (residualPsiMax >= tol)	
-	{	
-		// reset residualPsi to find new max
-		residualPsiMax = 0;		
-		iterations += 1;
-		
-		// loop through interior points
-		for (int k = 1 ; k <= nx - 2 ; k++)
-		{
-			for (int l = 1 ; l <= ny - 2 ; l++)
-			{
-
-			psikl   = nodes[k][l].psi;	
-			psikp1l = nodes[k+1][l].psi;
-			psikm1l = nodes[k-1][l].psi;	
-			psiklp1 = nodes[k][l+1].psi;
-			psiklm1 = nodes[k][l-1].psi;
-			rhs     =-nodes[k][l].zeta;
-
-			psi_new = ( (psikp1l + psikm1l) + (psiklp1 + psiklm1)*beta*beta - rhs*dx*dx)/(1 + beta*beta)/2;
-			residualPsiI = abs(psikl - psi_new); // residualPsi should acually be calculated after all psi_new calc
-				
-			if (residualPsiI > residualPsiMax)
-			{
-				residualPsiMax = residualPsiI;
-			}
-				
-			//cout << residualPsiI << endl;
-			psi_new = (1-omega)*psikl + omega*psi_new;
-			nodes[k][l].psi = psi_new;
-			}		
-	
-		}
-	}
-	residualPsi[0] = residualPsiMax*uRef*lRef;
-	residualPsi[1] = residualPsiCum/iterations*uRef*lRef;
-	Grid::calc_psi_error();
-	
-}
-
-
-
-// SOLVE FOR PSI IN POISSON EQUATION 
+// TEST POISSON EQUATION (solve poisson equation with rhs(psi_manu)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 int Grid::test_poisson(double tol,double omega)
 {
@@ -600,6 +528,75 @@ int Grid::test_poisson(double tol,double omega)
 	Grid::calc_psi_error();
 	
 }
+
+
+
+
+
+// SOLVE FOR PSI IN POISSON EQUATION 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+int Grid::solve_poisson(double tol,double omega)
+{
+http://www.nhl.com/
+// initialize residualPsi and iterations
+	double residualPsiMax = tol;
+	double residualPsiCum = 0;
+	double residualPsiI   = 0;
+	iterations = 0;
+
+	
+
+// Initialize Stensil Variables
+	double beta = dx/dy;	
+	double psi_new = 0;
+	double psikl   = 0;	
+	double psikp1l = 0;
+	double psikm1l = 0;	
+	double psiklp1 = 0;
+	double psiklm1 = 0;
+	double rhs     = 0;
+
+
+	while (residualPsiMax >= tol)	
+	{	
+		// reset residualPsi to find new max
+		residualPsiMax = 0;		
+		iterations += 1;
+		
+		// loop through interior points
+		for (int k = 1 ; k <= nx - 2 ; k++)
+		{
+			for (int l = 1 ; l <= ny - 2 ; l++)
+			{
+
+			psikl   = nodes[k][l].psi;	
+			psikp1l = nodes[k+1][l].psi;
+			psikm1l = nodes[k-1][l].psi;	
+			psiklp1 = nodes[k][l+1].psi;
+			psiklm1 = nodes[k][l-1].psi;
+			rhs     =-nodes[k][l].zeta;
+
+			psi_new = ( (psikp1l + psikm1l) + (psiklp1 + psiklm1)*beta*beta - rhs*dx*dx)/(1 + beta*beta)/2;
+			residualPsiI = abs(psikl - psi_new); // residualPsi should acually be calculated after all psi_new calc
+				
+			if (residualPsiI > residualPsiMax)
+			{
+				residualPsiMax = residualPsiI;
+			}
+				
+			//cout << residualPsiI << endl;
+			psi_new = (1-omega)*psikl + omega*psi_new;
+			nodes[k][l].psi = psi_new;
+			}		
+	
+		}
+	}
+	residualPsi[0] = residualPsiMax*uRef*lRef;
+	residualPsi[1] = residualPsiCum/iterations*uRef*lRef;
+	Grid::calc_psi_error();
+	
+}
+
 
 
 // calculate 2nd order accurate, centered 1st or 2nd spatial derivative 
@@ -681,14 +678,14 @@ exit(EXIT_FAILURE);
 double Grid::solve_dzeta_dt(int k, int l, double reynolds)
 {
 
-nodes[k][l].u = Grid::diff(k,l,"psi","y",1);
-nodes[k][l].v =-Grid::diff(k,l,"psi","x",1);
+nodes[k][l].u =  Grid::diff(k,l,"psi","y",1);
+nodes[k][l].v = -Grid::diff(k,l,"psi","x",1);
 //cout << "u" << nodes[k][l].u << " v" << nodes[k][l].v << endl;
 
 
-double ans = 0;
+
 // diffusive terms
-ans = ans + 1/reynolds*(Grid::diff(k,l,"zeta","x",2) + Grid::diff(k,l,"zeta","y",2));
+double ans = (Grid::diff(k,l,"zeta","x",2) + Grid::diff(k,l,"zeta","y",2))/reynolds;
 
 // convective terms
 ans = ans - nodes[k][l].u*Grid::diff(k,l,"zeta","x",1) - nodes[k][l].v*Grid::diff(k,l,"zeta","y",1); 
@@ -748,7 +745,7 @@ void Grid::solve_zeta_tp1(double dt, double reynolds)
  {
 	for (int l = 1 ; l <= ny - 2 ; l++)
 	{
-	 double zetaT = Grid::get("zeta",k,l);
+	 double zetaT = nodes[k][l].zeta;
 	 double ans = zetaT + Grid::solve_dzeta_dt(k,l,reynolds)*dt;
 	 nodes[k][l].zetaTp1 = ans;
 	}
@@ -781,7 +778,7 @@ void Grid::solve_zeta_tp1(double dt, double reynolds)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void Grid::solve(double ti, double tf, double reynolds, double cfl, double tol, double omega, double dumpPeriod, std::string filenameSpec)
 {
-Grid::solve_poisson(tol,omega);
+//Grid::solve_poisson(tol,omega);
 Grid::set_zeta_bc();
 t = ti;
 double counter = 0;
@@ -795,11 +792,15 @@ else
  {
   dt = cfl*dy/uRef;
  }
+
+// create filename for t=0 and save initial grid
   std::ostringstream os;
   os << filenameSpec << counter << ".vti";
   // "_dt:" << dt << 
   std::string filename = os.str();
   Grid::save_vtk_field(filename);
+
+
 while (t <= tf)
 {
  counter ++;
@@ -950,8 +951,8 @@ assert (nx == ny); // edit this function to allow rectalinear grids.
         double psiI     = nodes[k][l].psi;
    	double psiManuI = nodes[k][l].psiManu;
 	double zetaI    = nodes[k][l].zeta;
-	double uI       = nodes[k][l].u;
-	double vI       = nodes[k][l].v;
+	double uI       = nodes[k][l].v;
+	double vI       = nodes[k][l].u;
 	double wI       = nodes[k][l].w;
 	
 
