@@ -1,0 +1,46 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/omar/Documents/Programming/C++/FCFD/VTK_disabled/sources/FluidElement.h
+
+/home/omar/Documents/Programming/C++/FCFD/VTK_disabled/sources/Grid.cpp
+iostream
+-
+fstream
+-
+cmath
+-
+assert.h
+-
+string
+-
+sstream
+-
+stdio.h
+-
+stdlib.h
+-
+vtkVersion.h
+-
+vtkSmartPointer.h
+-
+vtkXMLImageDataWriter.h
+-
+vtkImageData.h
+-
+vtkPointData.h
+-
+vtkDoubleArray.h
+-
+FluidElement.h
+/home/omar/Documents/Programming/C++/FCFD/VTK_disabled/sources/FluidElement.h
+Grid.h
+/home/omar/Documents/Programming/C++/FCFD/VTK_disabled/sources/Grid.h
+
+/home/omar/Documents/Programming/C++/FCFD/VTK_disabled/sources/Grid.h
+

@@ -2,7 +2,7 @@ Description
 Object oriented c++ program to solve 2D incompressible flow problems using stream-vorticity method. This program will be validated by simulating lid driven cavity flow, and comparing the results with literature. 
 
 INSTRUCTIONS:
-if you dont intend to install Visualization Toolkit (VTK 6.1.0), go straight to the VTK disabled directory and see the readme.txt
+if you dont intend to install Visualization Toolkit (VTK 6.1.0), go straight to the "without_VTK" directory and see the readme.txt
 	To access old data, see current folder.  This code is from 15/05/2014
 
 if you want to run with VTK, you need to install VTK 6.1.0 and CMAKE *HIGHLY RECOMMENDED* 

@@ -1,0 +1,309 @@
+#include <iostream>
+#include <fstream>
+#include <cmath> 
+#include <assert.h> 
+#include <string>
+#include <sstream>
+
+
+/*
+#include <vtkVersion.h>
+#include <vtkSmartPointer.h>
+#include <vtkXMLImageDataWriter.h>
+#include <vtkImageData.h>
+#include <vtkPointData.h>
+#include <vtkDoubleArray.h>
+*/
+#include "FluidElement.h"
+#include "Grid.h"
+#include "GridRefinementStudy.h"
+
+using namespace std;
+
+GridRefinementStudy::GridRefinementStudy(int nMinSpec,int nGridsSpec,int dnSpec)
+{
+
+
+//assert(nGridMax <= nGrids);
+nGrids = nGridsSpec;
+nMin = nMinSpec;
+dn   = dnSpec;
+
+/*
+	for (int n = 0 ; n <= nGrids - 1; n++)
+	{
+	 int nx = nMin + n*dn;
+	 Grid tempGrid(nx,nx,1.0,1.0);
+	 meshes[n] = tempGrid;
+	}
+
+*/
+}
+
+void GridRefinementStudy::test_poisson_sor(double tol,double omega)
+{
+
+
+ double pi = atan(1)*4;
+ double psiTbc, psiBbc,psiLbc, psiRbc;
+ 
+ //specify BC
+ psiTbc = psiBbc = psiLbc = psiRbc = 0;
+
+
+
+  for (int n = 0 ; n <= nGrids - 1; n++)
+  {
+   int nx = nMin + n*dn;
+   int ny = nx;
+   grid.set_grid(nx,ny,1.0,1.0,1.0,1.0);
+   double L  = grid.get("length");
+   double W  = grid.get("width");
+
+   double xkl, ykl, psiManu, rhs, psiInitial;
+   // set IC, psiManu and rhs(psiManu)
+   for (int l = 0 ; l <= ny - 1 ; l++)
+   { 
+    for (int k = 0 ; k <= nx - 1 ; k++)	
+    {
+     xkl     = grid.get("x",k,l);
+     ykl     = grid.get("y",k,l);
+     
+     psiManu = sin(xkl*pi/L)*sin(ykl*pi/W); // this is a fake solution to psi
+     grid.set("psiManu",k,l,psiManu);
+
+     rhs = -pi*pi*sin(xkl*pi/L)*sin(ykl*pi/W)*(1/L/L + 1/W/W);
+     grid.set("zeta",k,l,-rhs);
+
+     psiInitial = cos(xkl*pi/L)*cos(ykl*pi/W);
+     grid.set("psi",k,l,psiInitial);
+    }
+
+   }
+   // set BC
+   grid.set_psi_bc("diri",psiLbc, psiRbc, psiTbc, psiBbc);
+   // solve poisson eq
+   grid.solve_poisson("sor",tol,omega);
+   grid.calc_psi_error();
+ 
+std::string filenameSpec = "Results/GRS/TestPoissonSOR";
+std::ostringstream os;
+os << filenameSpec << "_tol:" << tol << "_SOR:" << omega;
+filenameSpec = os.str();
+
+ if (n == 0)
+ {
+  grid.create_grid_params_header(filenameSpec);
+ }
+ grid.save_grid_params(filenameSpec);
+ }
+}
+
+
+void GridRefinementStudy::test_poisson_adi(double tol)
+{
+
+
+ double pi = atan(1)*4;
+ double psiTbc, psiBbc,psiLbc, psiRbc;
+ 
+ //specify BC
+ psiTbc = psiBbc = psiLbc = psiRbc = 0;
+
+
+
+  for (int n = 0 ; n <= nGrids - 1; n++)
+  {
+   int nx = nMin + n*dn;
+   int ny = nx;
+   grid.set_grid(nx,ny,1.0,1.0,1.0,1.0);
+   double L  = grid.get("length");
+   double W  = grid.get("width");
+
+   double xkl, ykl, psiManu, rhs, psiInitial;
+   // set IC, psiManu and rhs(psiManu)
+   for (int l = 0 ; l <= ny - 1 ; l++)
+   { 
+    for (int k = 0 ; k <= nx - 1 ; k++)	
+    {
+     xkl     = grid.get("x",k,l);
+     ykl     = grid.get("y",k,l);
+     
+     psiManu = sin(xkl*pi/L)*sin(ykl*pi/W); // this is a fake solution to psi
+     grid.set("psiManu",k,l,psiManu);
+
+     rhs = -pi*pi*sin(xkl*pi/L)*sin(ykl*pi/W)*(1/L/L + 1/W/W);
+     grid.set("zeta",k,l,-rhs);
+
+     psiInitial = cos(xkl*pi/L)*cos(ykl*pi/W);
+     grid.set("psi",k,l,psiInitial);
+    }
+
+   }
+   // set BC
+   grid.set_psi_bc("diri",psiLbc, psiRbc, psiTbc, psiBbc);
+   // solve poisson eq
+   grid.solve_poisson("adi",tol,0.0);
+   grid.calc_psi_error();
+ 
+std::string filenameSpec = "Results/GRS/TestPoissonADI";
+std::ostringstream os;
+os << filenameSpec << "_tol:" << tol;
+filenameSpec = os.str();
+
+ if (n == 0)
+ {
+  grid.create_grid_params_header(filenameSpec);
+ }
+ grid.save_grid_params(filenameSpec);
+ }
+}
+
+
+// Calc Test First Derivative Operator
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+void GridRefinementStudy::test_derivative1()
+{
+ double pi = atan(1)*4;
+ 
+ 
+ //specify BC for zeta
+ // derivative operator will be tested on zeta and soln saved to psi, so errorPsi fn can be implemented
+  for (int n = 0 ; n <= nGrids - 1; n++)
+  {
+   int nx = nMin + n*dn;
+   int ny = nx;
+   grid.set_grid(nx,ny,1.0,1.0,1.0,1.0);
+   double L  = grid.get("length");
+   double W  = grid.get("width");
+
+   double xkl, ykl, psiManu, rhs, psiInitial;
+   // set IC, psiManu and rhs(psiManu)
+   for (int l = 0 ; l <= ny - 1 ; l++)
+   { 
+    for (int k = 0 ; k <= nx - 1 ; k++)	
+    {
+     xkl     = grid.get("x",k,l);
+     ykl     = grid.get("y",k,l);
+     
+     double zeta = cos(xkl*pi/L) + cos(ykl*pi/W);
+     grid.set("zeta",k,l,zeta);
+
+     // calc analytic soln and save to psiManu so errorPsi fn can be used
+
+     double analyticSoln = -(pi*sin((pi*xkl)/L))/L-(pi*sin((pi*ykl)/W))/W;
+     grid.set("psiManu",k,l,analyticSoln);
+     // initialize to exact soln to ensure BC satisfied
+     grid.set("psi",k,l,analyticSoln);
+    }
+   }
+   // set BC
+   //double psiTbc, psiBbc, psiLbc, psiRbc;
+   //psiTbc = psiBbc = psiLbc = psiRbc = 0;
+   //grid.set_psi_bc("vel",psiLbc, psiRbc, psiTbc, psiBbc);
+
+   
+
+   // apply first derivative to interior nodes
+   for (int l = 1 ; l <= ny - 2 ; l++)
+   { 
+    for (int k = 1 ; k <= nx - 2 ; k++)	
+    {
+     double dzetaDxKl   = grid.diff(k,l,"zeta","x",1);
+     double dzetaDyKl   = grid.diff(k,l,"zeta","y",1);
+     // numerical soln saved to psi to use error calc.
+     double numericalSoln = dzetaDxKl + dzetaDyKl;
+     grid.set("psi",k,l,numericalSoln);
+    }
+   }
+
+   grid.calc_psi_error();
+ 
+   std::string filenameSpec = "Results/GRS/TestDerivative1";
+
+   if (n == 0)
+   {
+    grid.create_grid_params_header(filenameSpec);
+   }
+   grid.save_grid_params(filenameSpec);
+
+
+  }
+
+
+}
+
+void GridRefinementStudy::test_derivative2()
+{
+ double pi = atan(1)*4;
+ 
+ 
+ //specify BC for zeta
+ // derivative operator will be tested on zeta and soln saved to psi, so errorPsi fn can be implemented
+  for (int n = 0 ; n <= nGrids - 1; n++)
+  {
+   int nx = nMin + n*dn;
+   int ny = nx;
+   grid.set_grid(nx,ny,1.0,1.0,1.0,1.0);
+   double L  = grid.get("length");
+   double W  = grid.get("width");
+
+   double xkl, ykl, psiManu, rhs, psiInitial;
+   // set IC, psiManu and rhs(psiManu)
+   for (int l = 0 ; l <= ny - 1 ; l++)
+   { 
+    for (int k = 0 ; k <= nx - 1 ; k++)	
+    {
+     xkl     = grid.get("x",k,l);
+     ykl     = grid.get("y",k,l);
+     
+     double zeta = cos(xkl*pi/L) + cos(ykl*pi/W);
+     grid.set("zeta",k,l,zeta);
+
+     // calc analytic soln and save to psiManu so errorPsi fn can be used
+
+     double analyticSoln = -(pi*pi*cos((pi*xkl)/L))/L/L-(pi*pi*cos((pi*ykl)/W))/W/W;
+     grid.set("psiManu",k,l,analyticSoln);
+     // initialize to exact solution to ensure BC satisfied
+     grid.set("psi",k,l,analyticSoln);
+    }
+   }
+   // set BC
+   //double psiTbc, psiBbc, psiLbc, psiRbc;
+   //psiTbc = psiBbc = psiLbc = psiRbc = 0;
+   //grid.set_psi_bc("vel",psiLbc, psiRbc, psiTbc, psiBbc);
+
+   
+
+   // apply 2nd derivative to interior nodes
+   for (int l = 1 ; l <= ny - 2 ; l++)
+   { 
+    for (int k = 1 ; k <= nx - 2 ; k++)	
+    {
+     double d2zetaDx2Kl   = grid.diff(k,l,"zeta","x",2);
+     double d2zetaDy2Kl   = grid.diff(k,l,"zeta","y",2);
+     // numerical soln saved to psi to use error calc.
+     double numericalSoln = d2zetaDx2Kl + d2zetaDy2Kl;
+     grid.set("psi",k,l,numericalSoln);
+    }
+   }
+
+   grid.calc_psi_error();
+ 
+   std::string filenameSpec = "Results/GRS/TestDerivative2";
+
+
+   if (n == 0)
+   {
+    grid.create_grid_params_header(filenameSpec);
+   }
+   grid.save_grid_params(filenameSpec);
+
+   if (n==nGrids-1)
+   {
+    //grid.save_vtk_field(filenameSpec);
+   }
+  }
+
+}
+
