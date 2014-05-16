@@ -15,7 +15,7 @@ FluidElement::FluidElement()
 	u        = 0;
 	v        = 0;
 	w        = 0;
-	rhsPsi   = 0;
+	rhs      = 0;
 	psiManu  = 0;	
 	pos[3]   = {};
 
@@ -50,9 +50,9 @@ void FluidElement::set_zeta(double zetaSpec)
 	zeta = zetaSpec;
 }
 
-void FluidElement::set_rhsPsi(double rhsPsiSpec)
+void FluidElement::set_rhs(double rhsSpec)
 {
-	rhsPsi = rhsPsiSpec;
+	rhs = rhsSpec;
 }
 
 void FluidElement::set_psiManu(double psiManuSpec)
@@ -89,7 +89,7 @@ void FluidElement::clear()
 	u        = 0;
 	v        = 0;
 	w        = 0;
-	rhsPsi   = 0;
+	rhs   = 0;
 	psiManu  = 0;
 }
 
@@ -121,9 +121,9 @@ double FluidElement::get_w()
 	return w;
 }
 
-double FluidElement::get_rhsPsi()
+double FluidElement::get_rhs()
 {
-	return rhsPsi;
+	return rhs;
 }
 
 double FluidElement::get_psiManu()

@@ -1,0 +1,137 @@
+\begin{figure}[h!]
+\label{fig:ovs_sd}
+\center
+\includegraphics[width=\textwidth]{plots/ovs_sd}
+\caption{Maximum numerical error as a function of grid spacing for spatial discretizations, plotted on a log-log scale.}
+\end{figure}
+
+
+
+
+\begin{figure}[h!]
+\label{fig:cfl_u}
+\center
+\includegraphics[width=\textwidth]{plots/cfl_u}
+\caption{Steady state u-velocity as a function of y, along the vertical cavity mid-line, for 3 different CFL numbers, at Re:1000.}
+\end{figure}
+
+
+
+
+
+\begin{figure}[h!]
+\label{fig:cfl_v}
+\center
+\includegraphics[width=\textwidth]{plots/cfl_v}
+\caption{Steady state v-velocity as a function of x, along the horizontal cavity mid-line, for 3 different CFL numbers, at Re:1000.}
+\end{figure}
+
+
+
+\begin{figure}[h!]
+\label{fig:rts}
+\center
+\includegraphics[width=\textwidth]{plots/rts}
+\caption{Maximum numerical error as a function of grid spacing, for different residual tolerances, plotted on a log-log scale, for the SOR Solver.}
+\end{figure}
+
+
+
+\begin{figure}[h!]
+\label{fig:rta}
+\center
+\caption{Maximum numerical error as a function of grid spacing, for different residual tolerances, plotted on a log-log scale, for the ADI Solver.}
+\includegraphics[width=\textwidth]{plots/rta}
+\end{figure}
+
+
+
+\begin{figure}[h!]
+\label{fig:rta}
+\center
+\includegraphics[width=\textwidth]{plots/rta}
+\caption{Maximum numerical error as a function of grid spacing, for different residual tolerances, plotted on a log-log scale, for the ADI Solver.}
+\end{figure}
+
+
+
+
+\begin{figure}[h!]
+\label{fig:rfs}
+\center
+\includegraphics[width=\textwidth]{plots/rfs}
+\caption{Number of iterations as a function of The Relaxation Factor for The SOR Solver}
+\end{figure}
+
+
+\begin{figure}[h!]
+\label{fig:lit_u_100}
+\center
+\includegraphics[width=\textwidth]{plots/lit_u_100}
+\caption{Steady state u-velocity as a function of y, along the vertical cavity mid-line, at Re:100, for comparison with literature.}
+\end{figure}
+
+
+
+\begin{figure}[h!]
+\label{fig:lit_v_100}
+\center
+\includegraphics[width=\textwidth]{plots/lit_v_100}
+\caption{Steady state v-velocity as a function of x, along the horizontal cavity mid-line, at Re:100, for comparison with literature.}
+\end{figure}
+
+
+
+\begin{figure}[h!]
+\label{fig:lit_u_1000}
+\center
+\includegraphics[width=\textwidth]{plots/lit_u_1000}
+\caption{Steady state u-velocity as a function of y, along the vertical cavity mid-line, at Re:1000 for comparison with literature}
+\end{figure}
+
+
+
+\begin{figure}[h!]
+\label{fig:lit_v_1000}
+\center
+\includegraphics[width=\textwidth]{plots/lit_v_1000}
+\caption{Steady state v-velocity as a function of x, along the horizontal cavity mid-line, at Re:1000 for comparison with literature.}
+\end{figure}
+
+
+
+\begin{figure}[h!]
+\label{fig:grs_u_1000}
+\center
+\includegraphics[width=\textwidth]{plots/grs_u_1000}
+\caption{Steady state u-velocity as a function of y, along the vertical cavity mid-line, for 3 different grid sizes, at Re:1000.}
+\end{figure}
+
+
+
+\begin{figure}[h!]
+\label{fig:grs_v_1000}
+\center
+\includegraphics[width=\textwidth]{plots/grs_v_1000}
+\caption{Steady state v-velocity as a function of x, along the vertical cavity mid-line, for 3 different grid sizes, at Re:1000.}
+\end{figure}
+
+
+
+\begin{figure}[h!]
+\label{fig:grs_u_100}
+\center
+\includegraphics[width=\textwidth]{plots/grs_u_100}
+\caption{Steady state u-velocity as a function of y, along the vertical cavity mid-line, for 3 different grid sizes, at Re:100.}
+\end{figure}
+
+
+
+\begin{figure}[h!]
+\label{fig:grs_v_100}
+\center
+\includegraphics[width=\textwidth]{plots/grs_v_100}
+\caption{Steady state v-velocity as a function of x, along the horizontal cavity mid-line, for 3 different grid sizes, at Re:100.}
+\end{figure}
+
+

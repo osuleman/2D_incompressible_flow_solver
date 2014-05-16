@@ -10,6 +10,7 @@ public:
 	GridRefinementStudy(int, int, int);
 	void test_poisson(double omega, double tol);
 	void test_derivative1();
+        void test_derivative2();
 
 
 };

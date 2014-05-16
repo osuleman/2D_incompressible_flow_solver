@@ -1,0 +1,10 @@
+\chapter{Conclusion}
+
+
+The discretization schemes used in this study were shown to be second order accurate.  They yielded almost identical results to a similar study by Ghia Et. Al., but slight differences were evident near the walls.  It's believed that differences in boundary condition implementation was a major contributing factor to these discrepancies. 
+
+The ADI method was used to speed up the computation.  Unfortunately, there was a bug in the method, and in the end, the ADI method was far slower than SOR.  This bug did not affect the ADI methods final solution, but it drastically increased the time required to converge to a solution.  It is suspected that the bug lies somewhere in the optimal time step selection, for fast convergence, or in the method for solving tri-diagonal systems.  Further de-bugging is required before any concrete conclusions can be drawn on why the ADI method is so slow to converge.
+
+Some instabilities were observed with a CFL number greater than 0.5.  A stability analysis should be performed for the FTCS scheme implemented to determine if this observation is expected.  After completing a stability analysis, some criteria should be provided for CFL Number selection.  Currently, the largest CFL number yielding a stable solutions is 0.2, and one should be cautious when running the program with larger CFL Numbers.
+
+The program is structured such that it can be adapted to solve problems on a variety of grids.  The class constructors, numerical schemes, and VTK data writer must be adapted accordingly.  Future work includes solving these equations on a variety of domains involving more complicated geometry.  Additionally, the 3D Navier Stokes equations could be implemented.  Additionally, the VTK package should be included as a runtime argument.  Currently, the program is duplicated to run without VTK, but that version will not stay current with any future modifications.

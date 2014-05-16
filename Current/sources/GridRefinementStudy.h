@@ -8,7 +8,8 @@ class GridRefinementStudy
 
 public:
 	GridRefinementStudy(int, int, int);
-	void test_poisson(double omega, double tol);
+	void test_poisson_sor(double,double);
+	void test_poisson_adi(double);
 	void test_derivative1();
         void test_derivative2();
 

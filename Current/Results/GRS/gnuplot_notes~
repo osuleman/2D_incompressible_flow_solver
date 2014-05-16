@@ -1,0 +1,70 @@
+plot "TestPoissonADI_tol:1e-06_L:1_W:1.txt" using 1:7 title "tol:1e-6" with linespoints,"TestPoissonADI_tol:1e-07_L:1_W:1.txt" using 1:7 title "tol:1e-7" with linespoints,"TestPoissonADI_tol:1e-08_L:1_W:1.txt" using 1:7 title "tol:1e-8" with linespoints,"TestPoissonADI_tol:1e-09_L:1_W:1.txt" using 1:7 title "tol:1e-9" with linespoints,"TestPoissonADI_tol:1e-10_L:1_W:1.txt" using 1:7 title "tol:1e-10" with linespoints,"TestPoissonADI_tol:1e-11_L:1_W:1.txt" using 1:7 title "tol:1e-11" with linespoints,"TestPoissonADI_tol:1e-12_L:1_W:1.txt" using 1:7 title "tol:1e-12" with linespoints
+
+
+
+set termopt enhanced
+
+COMPARING GRIDS AND WITH LIT
+
+
+plot './Ghia_et.al./GhiaEtAl-uy-Re100.dat' using 1:2 title "Ghia et. al." with points,'./Sim1/Re100/N33/Suleman-uy-Re0100-033x033.dat' using 1:2 title "Grid:33x33" with points,'./Sim1/Re100/N65/Suleman-uy-Re0100-065x065.dat' using 1:2 title "Grid:65x65" with points,'./Sim1/Re100/N129/Suleman-uy-Re0100-0129x0129.dat' using 1:2 title "Grid:129x129" with points
+
+plot './Ghia_et.al./GhiaEtAl-vx-Re100.dat' using 1:2 title "Ghia et. al." with points,'./Sim1/Re100/N33/Suleman-vx-Re0100-033x033.dat' using 1:2 title "Grid:33x33" with points,'./Sim1/Re100/N65/Suleman-vx-Re0100-065x065.dat' using 1:2 title "Grid:65x65" with points,'.Sim1//Re100/N129/Suleman-vx-Re0100-0129x0129.dat' using 1:2 title "Grid:129x129" with points
+
+
+plot './Ghia_et.al./GhiaEtAl-vx-Re1000.dat' using 1:2 title "Ghia et. al." with points,'./Sim1/Re1000/N33/Suleman-vx-Re01000-033x033.dat' using 1:2 title "Grid:33x33" with points,'./Sim1/Re1000/N65/Suleman-vx-Re01000-065x065.dat' using 1:2 title "Grid:65x65" with points,'./Sim1/Re1000/N129/Suleman-vx-Re01000-0129x0129.dat' using 1:2 title "Grid:129x129" with points
+
+plot './Ghia_et.al./GhiaEtAl-uy-Re1000.dat' using 1:2 title "Ghia et. al." with points,'./Sim1/Re1000/N33/Suleman-uy-Re01000-033x033.dat' using 1:2 title "Grid:33x33" with points,'./Sim1/Re1000/N65/Suleman-uy-Re01000-065x065.dat' using 1:2 title "Grid:65x65" with points,'./Sim1/Re1000/N129/Suleman-uy-Re01000-0129x0129.dat' using 1:2 title "Grid:129x129" with points
+
+
+
+
+
+Spatial Disc Error
+
+plot "./GRS/TestDerivative1_L:1_W:1.txt" using 3:7 title "First Derivative" with linespoints, "./GRS/TestDerivative2_L:1_W:1.txt" using 3:7 title "Second Derivative" with linespoints,"./GRS/TestPoissonADI_tol:1e-12_L:1_W:1.txt" using 3:7 title "ADI" with linespoints,"./GRS/TestPoissonSOR_tol:1e-12_SOR:1_L:1_W:1.txt" using 3:7 title "SOR" with linespoints
+
+set title "Spatial Discretization Error \n Maximum Error VS Grid Spacing"
+set xlabel  "log(h^{*})"
+set ylabel  "log({/Symbol e}_{max})" 
+set logscale x 10
+set logscale y 10
+set xrange [ 0.005 : 0.15 ]
+set key title ""
+set key inside left top vertical Left 
+
+
+set arrow 1 from 129, 1e-06, 0 to 129, 0.01, 0 nohead back nofilled linetype 0 linewidth 1.000
+set arrow 2 from  65, 1e-06, 0 to  65, 0.01, 0 nohead back nofilled linetype 0 linewidth 1.000
+set arrow 3 from  33, 1e-06, 0 to  33, 0.01, 0 nohead back nofilled linetype 0 linewidth 1.000
+
+
+
+
+
+
+
+f1(x) = a1*x + b1
+f2(x) = a2*x + b2
+f3(x) = a3*x + b3
+f4(x) = a4*x + b4
+fit f1(x) "./GRS/TestDerivative1_L:1_W:1.txt" using (log($3)):(log($7)) via a1,b1
+fit f2(x) "./GRS/TestDerivative2_L:1_W:1.txt" using (log($3)):(log($7)) via a2,b2
+fit f3(x) "./GRS/TestPoissonADI_tol:1e-12_L:1_W:1.txt" using (log($3)):(log($7)) via a3,b3
+fit f4(x) "./GRS/TestPoissonSOR_tol:1e-12_SOR:1_L:1_W:1.txt" using 3:7 title "tol:1e-12" using (log($3)):(log($7)) via a4,b4
+
+a1              = 1.99461          +/- 0.001142     (0.05727%)
+b1              = 2.31111          +/- 0.004812     (0.2082%)
+
+a2              = 1.98334          +/- 0.003548     (0.1789%)
+b2              = 2.71159          +/- 0.01495      (0.5512%)
+
+a3              = 1.99383          +/- 0.001311     (0.06573%)
+b3              = -0.223433        +/- 0.005521     (2.471%)
+
+a4              = 1.99384          +/- 0.001312     (0.0658%)
+b4              = -0.223407        +/- 0.005526     (2.474%)
+
+
+
+

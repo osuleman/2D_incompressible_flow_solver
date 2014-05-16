@@ -1,0 +1,309 @@
+
+/////////////////////////////////////////////////////////////////////
+set title "Order Verification Study for Spatial Discretizations"
+
+set output"ovs_sd"
+
+set xlabel"log({/Symbol D} x)" 
+
+set ylabel"log({/Symbol e}_{max})"
+
+set logscale xy
+set key inside left top
+set xrange [ 0.00500000 : 0.150000 ] 
+
+set arrow 1 from 0.0078125, 1e-05, 0 to 0.0078125, 1, 0 nohead back nofilled linetype 0 linewidth 1.000
+set label 1 "Grid:129x129 at 0.0078125,0.1
+set arrow 2 from 0.0156250, 1e-05, 0 to 0.0156250, 1, 0 nohead back nofilled linetype 0 linewidth 1.000
+set label 2 "Grid:65x65 at 0.0156250,0.1
+set arrow 3 from 0.0312500, 1e-05, 0 to 0.0312500, 1, 0 nohead back nofilled linetype 0 linewidth 1.000
+set label 3 "Grid:33x33 at 0.0312500,0.1
+
+
+plot "./GRS/TestDerivative1_L:1_W:1.txt" using 3:7 title "First Derivative" with linespoints,"./GRS/TestDerivative2_L:1_W:1.txt" using 3:7 title "Second Derivative" with linespoints,"./GRS/TestPoissonSOR_tol:1e-12_SOR:1_L:1_W:1.txt" using 3:7 title "Poisson using SOR" with linespoints,"./GRS/TestPoissonADI_tol:1e-12_L:1_W:1.txt" using 3:7 title "Poisson using ADI" with linespoints
+
+
+///////////////////////////////////////////////////////////////////
+set title "Effect of CFL Number on Steady State Solution \n U-Velocity along the Vertical Cavity Mid-line \n Re:1000"
+set output"cfl_u"
+save "cfl_u.gp"
+set xlabel"ubar"
+
+set ylabel"ybar"
+
+unset logscale xy
+
+
+
+plot 
+
+plot "./Sim2/Re1000/N129/Suleman-uy-Re01000-0129x0129.dat" using 2:1 title "CFL:0.05" with linespoints,"./Sim1/Re1000/N129/Suleman-uy-Re01000-0129x0129.dat" using 2:1 title "CFL:0.10" with linespoints,"./Sim3/Re1000/N129/Suleman-uy-Re01000-0129x0129.dat" using 2:1 title "CFL:0.20" with linespoints
+
+./Sim2/Re1000/N129/Suleman-vx-Re01000-0129x0129.dat
+
+
+////////////////////////////////////////////////////////////////
+set title "Effect of CFL Number on Steady State Solution \n V-Velocity along the Horizontal Cavity Mid-line" \n Re:1000"
+
+set output"cfl_v"
+
+set xlabel"x/L_{ref}"
+
+set ylabel"v/u_{ref}"
+
+set title "Effect of CFL Number on Steady State Solution \n V-Velocity along the Horizontal Cavity Mid-line"
+
+plot "./Sim2/Re1000/N129/Suleman-vx-Re01000-0129x0129.dat" using 1:2 title "CFL:0.05" with linespoints, plot "./Sim1/Re1000/N129/Suleman-vx-Re01000-0129x0129.dat" using 1:2 title "CFL:0.10" with linespoints, plot "./Sim3/Re1000/N129/Suleman-vx-Re01000-0129x0129.dat" using 1:2 title "CFL:0.20" with linespoints
+
+
+
+
+
+///////////////////////////////////////////////////////
+set title "Residual Tolerance Selection for The SOR Solver"
+
+set output"rts"
+
+set xlabel"delta xbar"
+
+set ylabel"$\epsilon_{max}$"
+
+set logscale xy
+
+plot "./GRS/TestPoissonSOR_tol:1e-06_SOR:1_L:1_W:1.txt" using 3:7 title "Tol:1e-06" with linespoints,"./GRS/TestPoissonSOR_tol:1e-07_SOR:1_L:1_W:1.txt" using 3:7 title "Tol:1e-07" with linespoints,"./GRS/TestPoissonSOR_tol:1e-08_SOR:1_L:1_W:1.txt" using 3:7 title "Tol:1e-08" with linespoints,"./GRS/TestPoissonSOR_tol:1e-09_SOR:1_L:1_W:1.txt" using 3:7 title "Tol:1e-09" with linespoints
+
+
+
+
+///////////////////////////////////////////////////////
+set title "Residual Tolerance Selection for The ADI Solver"
+
+set output"rta"
+
+set xlabel"delta xbar"
+
+set ylabel"$\epsilon_{max}$"
+
+set logscale xy
+set xrange [ 0.00500000 : 0.050000 ] 
+plot 
+
+
+plot "./GRS/TestPoissonADI_tol:1e-06_L:1_W:1.txt" using 3:7 title "Tol:1e-06" with linespoints, "./GRS/TestPoissonADI_tol:1e-07_L:1_W:1.txt" using 3:7 title "Tol:1e-07" with linespoints, "./GRS/TestPoissonADI_tol:1e-08_L:1_W:1.txt" using 3:7 title "Tol:1e-08" with linespoints, "./GRS/TestPoissonADI_tol:1e-09_L:1_W:1.txt" using 3:7 title "Tol:1e-09" with linespoints
+
+
+
+
+
+
+
+///////////////////////////////////////////////////////////////////
+
+set output"rfs"
+
+set xlabel"omega"
+
+set ylabel"iterations"
+set xscale""
+
+set title "Relaxation Factor Selection for The SOR Solver"
+
+
+plot "./GRS/SOR_OPT33" using 1:2 title "Grid:33x33" with linespoints,"./GRS/SOR_OPT65" using 1:2 title "Grid:65x65" with linespoints,"./GRS/SOR_OPT129" using 1:2 title "Grid:129x129" with linespoints
+
+
+
+
+
+///////////////////////////////////////////////////////////////////
+set title "Comparison with Literature on Steady State Solution at Re:100 /n U-Velocity along the Vertical Cavity Mid-line"
+
+set output"lit_u_100"
+
+save"lit_u.gp"
+
+set xlabel"ubar"
+
+set ylabel"ybar"
+
+plot "./Ghia_et.al./GhiaEtAl-uy-Re100.dat" using 2:1 title "Ghia et. al." with points, "./Sim1/Re100/N129/Suleman-uy-Re0100-0129x0129.dat" using 2:1 title "Grid:129x129" with points, "./Ghia_et.al./compare/compiled100.csv" using 5:1 title "{/Symbol D}u/u_{ref}" with points axis x1y2
+
+
+
+///////////////////////////////////////////////////////////////////
+
+set output"lit_v_100"
+
+set xlabel"xbar"
+
+set ylabel"vbar"
+
+set title "Comparison with Literature on Steady State Solution at Re:100 \n V-Velocity along the Horizontal Cavity Mid-line"
+
+plot "./Ghia_et.al./GhiaEtAl-vx-Re100.dat" using 1:2 title "Ghia et. al." with points,"./Sim1/Re100/N129/Suleman-vx-Re0100-0129x0129.dat" using 1:2 title "Grid:129x129" with points,"./Ghia_et.al./compare/compiled100.csv" using 3:6 title "{/Symbol D}u/u_{ref}" with points
+
+
+///////////////////////////////////////////////////////////////////
+
+set output"lit_u_1000"
+
+set xlabel"ubar"
+
+set ylabel"ybar"
+
+
+set title "Comparison with Literature on Steady State Solution at Re:1000 \n U-Velocity along the Vertical Cavity Mid-line"
+
+
+plot "./Ghia_et.al./GhiaEtAl-uy-Re1000.dat" using 2:1 title "Ghia et. al." with points, "./Sim1/Re1000/N129/Suleman-uy-Re01000-0129x0129.dat" using 2:1 title "Grid:129x129" with points,using 2:1 title "Grid:129x129" with points, "./Ghia_et.al./compare/compiled1000.csv" using 5:1 title "{/Symbol D}u/u_{ref}" with points 
+
+
+ADD difference plot if time permits
+%%set xtics format ""
+%%set x2tics
+%%plot sin(x) axes x2y1
+
+
+///////////////////////////////////////////////////////////////////
+
+set output"lit_v_1000"
+
+set xlabel"xbar"
+
+set ylabel"vbar"
+
+plot 
+
+set title "Comparison with Literature on Steady State Solution\n V-Velocity along the Horizontal Cavity Mid-line \n Re:1000"
+
+plot "./Ghia_et.al./GhiaEtAl-vx-Re1000.dat" using 1:2 title "Ghia et. al." with points,"./Sim1/Re1000/N129/Suleman-vx-Re01000-0129x0129.dat" using 1:2 title "Grid:129x129" with points,"./Ghia_et.al./compare/compiled1000.csv" using 3:6 title "{/Symbol D}u/u_{ref}" with points
+
+
+
+//////////////////////////////////////////////////////////////////
+
+set output"grs_u_1000"
+save "grs_u_1000.gp"
+
+
+set xlabel"ubar"
+
+set ylabel"ybar"
+
+set title "Grid Refinement Study on Steady State Solution \n U-Velocity along the Vertical Cavity Mid-line \n Re:1000"
+plot "./Sim1/Re1000/N33/Suleman-uy-Re01000-033x033.dat" using 2:1 title "Grid:33x33" with points,"./Sim1/Re1000/N65/Suleman-uy-Re01000-065x065.dat" using 2:1 title "Grid:65x65" with points,"./Sim1/Re1000/N129/Suleman-uy-Re01000-0129x0129.dat" using 2:1 title "Grid:129x129" with points
+
+
+
+
+
+
+
+//////////////////////////////////////////////////////////////////
+
+set output"grs_v_1000"
+
+set xlabel"xbar"
+
+set ylabel"vbar"
+
+plot 
+
+set title "Grid Refinement Study on Steady State Solution \n V-Velocity along the Horizontal Cavity Mid-line \n Re:1000"
+
+
+plot "./Sim1/Re1000/N33/Suleman-vx-Re01000-033x033.dat" using 1:2 title "Grid:33x33" with points,"./Sim1/Re1000/N65/Suleman-vx-Re01000-065x065.dat" using 1:2 title "Grid:65x65" with points,"./Sim1/Re1000/N129/Suleman-vx-Re01000-0129x0129.dat" using 1:2 title "Grid:129x129" with points
+
+
+
+//////////////////////////////////////////////////////////////////
+
+set output"grs_u_100"
+save "grs_u_100.gp"
+
+
+set xlabel"ubar"
+
+set ylabel"ybar"
+
+set title "Grid Refinement Study on Steady State Solution \n U-Velocity along the Vertical Cavity Mid-line \n Re:100"
+
+
+plot "./Sim1/Re100/N33/Suleman-uy-Re0100-033x033.dat" using 2:1 title "Grid:33x33" with points,"./Sim1/Re100/N65/Suleman-uy-Re0100-065x065.dat" using 2:1 title "Grid:65x65" with points,"./Sim1/Re100/N129/Suleman-uy-Re0100-0129x0129.dat" using 2:1 title "Grid:129x129" with points
+
+
+
+
+
+
+
+
+//////////////////////////////////////////////////////////////////
+
+set output"grs_v_100"
+
+set xlabel"xbar"
+
+set ylabel"vbar"
+
+plot 
+
+set title "Grid Refinement Study on Steady State Solution \n V-Velocity along the Horizontal Cavity Mid-line \n Re:100"
+
+
+plot "./Sim1/Re100/N33/Suleman-vx-Re0100-033x033.dat" using 1:2 title "Grid:33x33" with points,"./Sim1/Re100/N65/Suleman-vx-Re0100-065x065.dat" using 1:2 title "Grid:65x65" with points,"./Sim1/Re100/N129/Suleman-vx-Re0100-0129x0129.dat" using 1:2 title "Grid:129x129" with points
+
+
+
+ALL PLOTS
+
+set terminal postscript color enhanced "Times-Roman" 18
+
+
+set output "ps/ovs_sd.ps"
+load "ovs_sd.gp"
+set output "ps/cfl_u.ps"
+load "cfl_u.gp"
+set output "ps/cfl_v.ps"
+load "cfl_v.gp"
+set output "ps/rts.ps"
+load "rts.gp"
+set output "ps/rta.ps"
+load "rta.gp"
+set output "ps/rfs.ps"
+load "rfs.gp"
+set output "ps/lit_u_100.ps"
+load "lit_u_100.gp"
+set output "ps/lit_v_100.ps"
+load "lit_v_100.gp"
+set output "ps/lit_u_1000.ps"
+load "lit_u_1000.gp"
+set output "ps/lit_v_1000.ps"
+load "lit_v_1000.gp"
+set output "ps/grs_u_1000.ps"
+load "grs_u_1000.gp"
+set output "ps/grs_v_1000.ps"
+load "grs_v_1000.gp"
+set output "ps/grs_u_100.ps"
+load "grs_u_100.gp"
+set output "ps/grs_v_100.ps"
+load "grs_v_100.gp"
+
+ps2pdf ovs_sd.ps pdf/ovs_sd.pdf
+ps2pdf cfl_u.ps pdf/cfl_u.pdf
+ps2pdf cfl_v.ps pdf/cfl_v.pdf
+ps2pdf rts.ps pdf/rts.pdf
+ps2pdf rta.ps pdf/rta.pdf
+ps2pdf rfs.ps pdf/rfs.pdf
+ps2pdf lit_u_100.ps pdf/lit_u_100.pdf
+ps2pdf lit_v_100.ps pdf/lit_v_100.pdf
+ps2pdf lit_u_1000.ps pdf/lit_u_1000.pdf
+ps2pdf lit_v_1000.ps pdf/lit_v_1000.pdf
+ps2pdf grs_u_1000.ps pdf/grs_u_1000.pdf
+ps2pdf grs_v_1000.ps pdf/grs_v_1000.pdf
+ps2pdf grs_u_100.ps pdf/grs_u_100.pdf
+ps2pdf grs_v_100.ps pdf/grs_v_100.pdf
+
+
+
+

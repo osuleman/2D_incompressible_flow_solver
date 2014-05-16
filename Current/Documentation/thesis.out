@@ -1,0 +1,28 @@
+\BOOKMARK [0][-]{section*.1}{Contents}{}
+\BOOKMARK [0][-]{chapter.1}{Introduction}{}
+\BOOKMARK [1][-]{section.1.1}{Governing Equations}{chapter.1}
+\BOOKMARK [1][-]{section.1.2}{Test Case}{chapter.1}
+\BOOKMARK [2][-]{subsection.1.2.1}{Boundary Conditions}{section.1.2}
+\BOOKMARK [2][-]{subsection.1.2.2}{Initial Conditions}{section.1.2}
+\BOOKMARK [0][-]{chapter.2}{Methods}{}
+\BOOKMARK [1][-]{section.2.1}{Program Structure}{chapter.2}
+\BOOKMARK [1][-]{section.2.2}{Numerical Discretization}{chapter.2}
+\BOOKMARK [2][-]{subsection.2.2.1}{Spacial Discretization}{section.2.2}
+\BOOKMARK [2][-]{subsection.2.2.2}{Temporal Discretization}{section.2.2}
+\BOOKMARK [1][-]{section.2.3}{Implementation of Boundary Conditions}{chapter.2}
+\BOOKMARK [1][-]{section.2.4}{Solution Algorithms}{chapter.2}
+\BOOKMARK [2][-]{subsection.2.4.1}{Successive Over-Relaxation Method}{section.2.4}
+\BOOKMARK [2][-]{subsection.2.4.2}{Alternating Direction Implicit Method}{section.2.4}
+\BOOKMARK [0][-]{chapter.3}{Results}{}
+\BOOKMARK [1][-]{section.3.1}{Order Verification Study}{chapter.3}
+\BOOKMARK [2][-]{subsection.3.1.1}{Spacial Discretization}{section.3.1}
+\BOOKMARK [2][-]{subsection.3.1.2}{Temporal Discretization}{section.3.1}
+\BOOKMARK [1][-]{section.3.2}{Optimizing Solution Algorithm}{chapter.3}
+\BOOKMARK [2][-]{subsection.3.2.1}{Selection of Residual Tolerance}{section.3.2}
+\BOOKMARK [2][-]{subsection.3.2.2}{Selection of Relaxation Factor for SOR Solver}{section.3.2}
+\BOOKMARK [2][-]{subsection.3.2.3}{Comparison of SOR and ADI Run Time}{section.3.2}
+\BOOKMARK [1][-]{section.3.3}{Model Validation}{chapter.3}
+\BOOKMARK [2][-]{subsection.3.3.1}{Comparing Steady State Solution with Literature}{section.3.3}
+\BOOKMARK [2][-]{subsection.3.3.2}{Effect of Grid Refinement on Steady State Solution}{section.3.3}
+\BOOKMARK [0][-]{chapter.4}{Conclusion}{}
+\BOOKMARK [0][-]{section*.3}{Bibliography}{}

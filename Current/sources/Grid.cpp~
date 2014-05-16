@@ -70,7 +70,7 @@ Grid::Grid(int nxSpec,int nySpec, double lSpec, double wSpec, double lRefSpec, d
 
 }
 
-// Constructor for 2D grid
+// reset to new 2D grid
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void Grid::set_grid(int nxSpec,int nySpec, double lSpec, double wSpec, double lRefSpec, double uRefSpec)
 {
@@ -136,9 +136,9 @@ else if(var.compare("zeta") == 0)
 }
 
 
-else if(var.compare("rhsPsi") == 0)	
+else if(var.compare("rhs") == 0)	
 {
-	nodes[k][l].rhsPsi = val;	
+	nodes[k][l].rhs = val;	
 }
 
 else if(var.compare("psiManu") == 0)	
@@ -148,7 +148,7 @@ else if(var.compare("psiManu") == 0)
 
 else 
 {
-	cout << "Invalid get_var selection (select: psi,zeta,rhsPsi, psiManu) "  << 	endl;
+	cout << "Invalid get_var selection (select: psi,zeta,rhs, psiManu) "  << 	endl;
 	exit(EXIT_FAILURE);
 }
 
@@ -176,9 +176,9 @@ else if(var.compare("zeta") == 0)
 }
 
 
-else if(var.compare("rhsPsi") == 0)	
+else if(var.compare("rhs") == 0)	
 {
-	val = nodes[k][l].rhsPsi;	
+	val = nodes[k][l].rhs;	
 }
 
 else if(var.compare("psiManu") == 0)	
@@ -198,7 +198,7 @@ else if(var.compare("y") == 0)
 
 else 
 {
-	cout << "Invalid get_var selection (select: psi,zeta,rhsPsi,psiManu,x,y) "  << 	endl;
+	cout << "Invalid get_var selection (select: psi,zeta,rhs,psiManu,x,y) "  << 	endl;
 	val = -9999.999;
 	exit(EXIT_FAILURE);
 }
@@ -420,26 +420,8 @@ errorPsi[0] = errorPsiMax*uRef*lRef;
 errorPsi[1] = errorPsiCum/n*uRef*lRef;
 }
 
-//
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void Grid::set_psi_bc()
-{  
- // set top and bottom
- for (int k = 0 ; k <= nx - 1 ; k++)
- {
-  nodes[k][0].psi    = nodes[k][0].u*dx + nodes[k][1].psi;
-  nodes[k][ny-1].psi = nodes[k][ny-1].u*dx + nodes[k][ny-2].psi;
- }
- for (int l = 1 ; l <= ny - 2 ; l++)
- {
-  // set left and right
-  nodes[0][l].psi    = nodes[0][l].v*dy + nodes[1][l].psi;
-  nodes[nx-1][l].psi = nodes[nx-1][l].v*dy + nodes[nx-2][l].psi;
- }	
-}
 
-
-
+// BC specific to lid driven cavity flow
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void Grid::set_zeta_bc()
 {
@@ -454,149 +436,224 @@ void Grid::set_zeta_bc()
   for (int l = 1; l <= ny - 2; l++)
   {
    // set left and right
-   nodes[0][l].zeta    =  2*(nodes[0][l].psi - nodes[1][l].psi - dx*nodes[0][l].u/uRef)/dx/dx;
-   nodes[nx-1][l].zeta =  2*(nodes[nx-1][l].psi - nodes[nx-2][l].psi + dx*nodes[nx-1][l].u/uRef)/dx/dx;
+   nodes[0][l].zeta    =  2*(nodes[0][l].psi - nodes[1][l].psi - dx*nodes[0][l].v/uRef)/dx/dx;
+   nodes[nx-1][l].zeta =  2*(nodes[nx-1][l].psi - nodes[nx-2][l].psi + dx*nodes[nx-1][l].v/uRef)/dx/dx;
   }	
 
 
 }
 
 
-
-
-
-// TEST POISSON EQUATION (solve poisson equation with rhs(psi_manu)
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-int Grid::test_poisson(double tol,double omega)
-{
-
-// initialize residualPsi and iterations
-	double residualPsiMax = tol;
-	double residualPsiCum = 0;
-	double residualPsiI   = 0;
-	iterations = 0;
-
-	
-
-// Initialize Stensil Variables
-	double beta = dx/dy;	
-	double psi_new = 0;
-	double psikl   = 0;	
-	double psikp1l = 0;
-	double psikm1l = 0;	
-	double psiklp1 = 0;
-	double psiklm1 = 0;
-	double rhsPsi  = 0;
-
-
-	while (residualPsiMax >= tol)	
-	{	
-		// reset residualPsi to find new max
-		residualPsiMax = 0;		
-		iterations += 1;
-		
-		// loop through interior points
-		for (int k = 1 ; k <= nx - 2 ; k++)
-		{
-			for (int l = 1 ; l <= ny - 2 ; l++)
-			{
-
-			psikl   = nodes[k][l].psi;	
-			psikp1l = nodes[k+1][l].psi;
-			psikm1l = nodes[k-1][l].psi;	
-			psiklp1 = nodes[k][l+1].psi;
-			psiklm1 = nodes[k][l-1].psi;
-			rhsPsi     = nodes[k][l].rhsPsi;
-
-			psi_new = ( (psikp1l + psikm1l) + (psiklp1 + psiklm1)*beta*beta - rhsPsi*dx*dx)/(1 + beta*beta)/2;
-			residualPsiI = abs(psikl - psi_new); // residualPsi should acually be calculated after all psi_new calc
-				
-			if (residualPsiI > residualPsiMax)
-			{
-				residualPsiMax = residualPsiI;
-			}
-				
-			//cout << residualPsiI << endl;
-			psi_new = (1-omega)*psikl + omega*psi_new;
-			nodes[k][l].psi = psi_new;
-			}		
-	
-		}
-	}
-	residualPsi[0] = residualPsiMax*uRef*lRef;
-	residualPsi[1] = residualPsiCum/iterations*uRef*lRef;
-	Grid::calc_psi_error();
-	
-}
-
-
-
-
-
 // SOLVE FOR PSI IN POISSON EQUATION 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-int Grid::solve_poisson(double tol,double omega)
+int Grid::solve_poisson(std::string type,double tol,double omega)
 {
+ if(type.compare("adi") == 0)	
+ {
 
-// initialize residualPsi and iterations
+  // only use ADI solver if the following criteria met.
+  assert(dx == dy);
+  assert(nx == ny);
+
+	double pi = atan(1)*4;
+
+	// initialize residualPsi and iterations
 	double residualPsiMax = tol;
 	double residualPsiCum = 0;
 	double residualPsiI   = 0;
 	iterations = 0;
 
-	
+  // fast convergence iteration parameters
 
-// Initialize Stensil Variables
+	double term1 = 4*cos(0.5*pi*dx)*cos(0.5*pi*dx);
+	double term2 = tan(0.5*pi*dx)*tan(0.5*pi*dx);
+	int pMax  = ceil(log10(term2)/2/log10(sqrt(2) - 1));
+	//cout << pMax << endl;
+	int    p     = 1;
+	double rho   = 0;
+
+  // Initialize rhs and diagonals
+	double b[nMax]     = {};
+	double diagA[nMax] = {};
+	double diagB[nMax] = {};
+	double diagC[nMax] = {};
+
+	// Create off diagonals of tdm
+	for (int k = 1 ; k <= nx - 2 ; k++)
+	{
+         diagA[k-1] = -1;
+	 diagC[k-1] = -1; 
+	}
+	diagA[0] = 0;
+	diagC[nx-3] = 0;
+
+	while (residualPsiMax >= tol)	
+	{	
+	 // reset residuals and update iteration number		
+	 iterations += 1;
+	 residualPsiMax = 0;		
+    	 residualPsiCum = 0;		
+	 // adjust convergence param
+	 rho  = pow(4*term1*term2,(2*p-1)/2/pMax);
+
+	 for (int k = 1 ; k <= nx - 2 ; k++)
+	 {
+	  // Create diagonal of tdm
+	  diagB[k-1] =  2*(1+rho);
+	 }
+
+	 // loop through interior points, sweeping along y
+	 for (int l = 1 ; l <= ny - 2 ; l++)
+	 {
+	  for (int k = 1 ; k <= nx - 2 ; k++)
+	  {
+	   b[k-1] = nodes[k][l+1].psi -2*(1-rho)*nodes[k][l].psi + nodes[k][l-1].psi + nodes[k][l].zeta*dx*dx;	
+	   //cout << b[k-1] << endl;
+	  }
+	  // add in boundary values
+	  b[0]    = b[0]    + nodes[0][l].psi;
+	  b[nx-3] = b[nx-3] + nodes[nx-1][l].psi;
+	  
+
+	  //Solve for phi(n+1/2), stored in b
+          //void solve_tridiagonal_in_place_reusable(double x[], const size_t N, const double a[], const double b[], const double c[]) {
+	  Grid::solve_tridiagonal_in_place_reusable(b,nx-2,diagA,diagB,diagC);  
+
+	  // update psi to psi(tn+1/2)
+	  for (int k = 1 ; k <= nx - 2 ; k++)
+	  {
+	   nodes[k][l].psi = b[k-1];
+	  }
+	 }// end of first time step calc
+
+ 
+
+
+	 // loop through interior points, sweeping along x
+	 for (int k = 1 ; k <= nx - 2 ; k++)
+	 {
+	  for (int l = 1 ; l <= ny - 2 ; l++)
+	  {
+	   b[l-1] = nodes[k+1][l].psi -2*(1-rho)*nodes[k][l].psi + nodes[k-1][l].psi + nodes[k][l].zeta*dy*dy;	
+	  }
+	  // add in boundary values
+	  b[0]    = b[0]    + nodes[k][0].psi;
+	  b[ny-3] = b[ny-3] + nodes[k][ny-1].psi;
+	  
+
+	  //Solve for phi(n+1), stored in b
+          //void solve_tridiagonal_in_place_reusable(double x[], const size_t N, const double a[], const double b[], const double c[]) {
+	  Grid::solve_tridiagonal_in_place_reusable(b,ny-2,diagA,diagB,diagC); 
+
+	  // save values at midpoint time step
+	  for (int l = 1 ; l <= ny - 2 ; l++)
+	  {
+	   // calculate residual and update max residual
+   	   residualPsiI = abs(nodes[k][l].psi - b[l-1]); // residualPsi should acually be calculated after all psi_new calc
+	   if (residualPsiI > residualPsiMax)
+	   {
+	 	residualPsiMax = residualPsiI;
+	   }
+	   //cout << "second step_old psi:" << nodes[k][l].psi << " new psi:" << b[l-1] << " residualI:" << residualPsiI << endl;
+	   nodes[k][l].psi = b[l-1];
+	  }
+	 }// end of second time step calc
+
+         if (p < pMax)
+	  {
+	   p = p + 1; 
+      	  }
+         else
+          {
+	   p = 1;
+          }
+
+
+	}
+
+	residualPsi[0] = residualPsiMax*uRef*lRef;
+	residualPsi[1] = residualPsiCum/(nx-2)/(ny-2)*uRef*lRef;
+		
+ }
+ else if(type.compare("sor") == 0)	
+ {
+
+  // initialize residualPsi and iterations
+	double residualPsiMax = tol;
+	double residualPsiCum = 0;
+	double residualPsiI   = 0;
+	iterations = 0;
+
+  // Initialize temp variables
 	double beta = dx/dy;	
-	double psi_new = 0;
-	double psikl   = 0;	
-	double psikp1l = 0;
-	double psikm1l = 0;	
-	double psiklp1 = 0;
-	double psiklm1 = 0;
-	double rhs     = 0;
+	double psi_new = 0;		
 
 
 	while (residualPsiMax >= tol)	
 	{	
 		// reset residualPsi to find new max
-		residualPsiMax = 0;		
+		residualPsiMax = 0;	
+		residualPsiCum = 0;		
 		iterations += 1;
-		
 		// loop through interior points
 		for (int k = 1 ; k <= nx - 2 ; k++)
 		{
 			for (int l = 1 ; l <= ny - 2 ; l++)
 			{
+			psi_new = ( (nodes[k+1][l].psi + nodes[k-1][l].psi) + (nodes[k][l+1].psi + nodes[k][l-1].psi)*beta*beta + nodes[k][l].zeta*dx*dx)/(1 + beta*beta)/2;
+			residualPsiI = abs(nodes[k][l].psi - psi_new); 
 
-			psikl   = nodes[k][l].psi;	
-			psikp1l = nodes[k+1][l].psi;
-			psikm1l = nodes[k-1][l].psi;	
-			psiklp1 = nodes[k][l+1].psi;
-			psiklm1 = nodes[k][l-1].psi;
-			rhs     =-nodes[k][l].zeta;
-
-			psi_new = ( (psikp1l + psikm1l) + (psiklp1 + psiklm1)*beta*beta - rhs*dx*dx)/(1 + beta*beta)/2;
-			residualPsiI = abs(psikl - psi_new); // residualPsi should acually be calculated after all psi_new calc
-				
 			if (residualPsiI > residualPsiMax)
 			{
 				residualPsiMax = residualPsiI;
 			}
 				
 			//cout << residualPsiI << endl;
-			psi_new = (1-omega)*psikl + omega*psi_new;
-			nodes[k][l].psi = psi_new;
+			nodes[k][l].psi = (1-omega)*nodes[k][l].psi + omega*psi_new;
 			}		
 	
 		}
 	}
 	residualPsi[0] = residualPsiMax*uRef*lRef;
-	residualPsi[1] = residualPsiCum/iterations*uRef*lRef;
-	Grid::calc_psi_error();
-	
+	residualPsi[1] = residualPsiCum/nx/ny*uRef*lRef;	
+ }
+ 
+ else 
+ {
+  cout << "select solver: 'sor' or 'adi'" << endl;
+  exit(EXIT_FAILURE);
+ }
+
 }
 
+// Thomas Algorythm for solving tridiagonal matrix. Source: http://en.wikipedia.org/wiki/Riemann_solver
+void Grid::solve_tridiagonal_in_place_reusable(double x[], const size_t N, const double a[], const double b[], const double c[]) {
+    size_t in;
+ 
+    /* Allocate scratch space. */
+    double* cprime = (double*)malloc(sizeof(double) * N);
+ 
+    if (!cprime) {
+        /* do something to handle error */
+    }
+ 
+    cprime[0] = c[0] / b[0];
+    x[0] = x[0] / b[0];
+ 
+    /* loop from 1 to N - 1 inclusive */
+    for (in = 1; in < N; in++) {
+        double m = 1.0 / (b[in] - a[in] * cprime[in - 1]);
+        cprime[in] = c[in] * m;
+        x[in] = (x[in] - a[in] * x[in - 1]) * m;
+    }
+ 
+    /* loop from N - 2 to 0 inclusive, safely testing loop end condition */
+    for (in = N - 1; in-- > 0; )
+        x[in] = x[in] - cprime[in] * x[in + 1];
+ 
+    /* free scratch space */
+    free(cprime);
+}
 
 
 // calculate 2nd order accurate, centered 1st or 2nd spatial derivative 
@@ -654,20 +711,13 @@ double Grid::diff(int k, int l, std::string f, std::string  xi, int deriv)
 	{
 	cout << "invalid spatial derivative.  choose x or y direction " << endl;
 	exit(EXIT_FAILURE);
-	}	
-
-
-
-}
-else 
-{
-
-cout << "invalid derivative selection.  Choose 1st or 2nd order only" << endl;
-exit(EXIT_FAILURE);
-
-}
-
-
+	}
+ }
+ else 
+ {
+ cout << "invalid derivative selection.  Choose 1st or 2nd order only" << endl;
+ exit(EXIT_FAILURE);
+ }
 }
 
 
@@ -677,70 +727,89 @@ exit(EXIT_FAILURE);
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 double Grid::solve_dzeta_dt(int k, int l, double reynolds)
 {
+ nodes[k][l].u =  Grid::diff(k,l,"psi","y",1);
+ nodes[k][l].v = -Grid::diff(k,l,"psi","x",1);
+ //cout << "u" << nodes[k][l].u << " v" << nodes[k][l].v << endl;
 
-nodes[k][l].u =  Grid::diff(k,l,"psi","y",1);
-nodes[k][l].v = -Grid::diff(k,l,"psi","x",1);
-//cout << "u" << nodes[k][l].u << " v" << nodes[k][l].v << endl;
+ // diffusive terms
+ double ans = (Grid::diff(k,l,"zeta","x",2) + Grid::diff(k,l,"zeta","y",2))/reynolds;
 
+ // convective terms
+ ans = ans - nodes[k][l].u*Grid::diff(k,l,"zeta","x",1) - nodes[k][l].v*Grid::diff(k,l,"zeta","y",1); 
 
-
-// diffusive terms
-double ans = (Grid::diff(k,l,"zeta","x",2) + Grid::diff(k,l,"zeta","y",2))/reynolds;
-
-// convective terms
-ans = ans - nodes[k][l].u*Grid::diff(k,l,"zeta","x",1) - nodes[k][l].v*Grid::diff(k,l,"zeta","y",1); 
-
-
-return ans;
+ return ans;
 }
 
 
 
 // Runge-Kutta 4 Solver
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void Grid::rk4_vorticity(double dt, double reynolds)
+void Grid::rk4_vorticity(double dt,double omega,std::string solver,double reynolds,double tol)
 {
-
-FluidElement nodesOld[nMax][nMax];
-//nodesOld = nodes;
-//Grid gridOld = grid;
-/*
-double zetaOld = nodes[k][l].zeta;
-// double tOld = t;
-double rhs = Grid::solve_dzeta_dt(int k, int l, double reynolds);
-nodes[k][l].zeta = zetaOld + 0.5*dt*rhs;
-double rhsSum = rhs;
-
-// t = told + dt/2
-
-rhs = Grid::solve_dzeta_dt(int k, int l, double reynolds);
-nodes[k][l].zeta = zetaOld + 0.5*dt*rhs;
-rhsSum = rhsSum + 2.0*rhs;
-rhs = Grid::solve_dzeta_dt(int k, int l, double reynolds);
-nodes[k][l].zeta = zetaOld + dt*rhs;
-rhsSum = rhsSum + 2.0*rhs;
-
-// t = told + dt 
-
-rhs = Grid::solve_dzeta_dt(int k, int l, double reynolds);
-rhsSum = rhsSum + rhs;
-nodes[k][l].zeta = zetaOld + rhsSum/6.0;
-
+ double tOld = t;
+ double rhs;
+ double zetaOld[nMax][nMax] = {};
+ cout << "rk1" << endl;
+ for (int k = 1 ; k <= nx - 2; k++)
+ {
+	for (int l = 1 ; l <= ny - 2 ; l++)
+	{
+	 zetaOld[k][l] = nodes[k][l].zeta;
+	 rhs = Grid::solve_dzeta_dt(k,l,reynolds); 
+	 nodes[k][l].zeta = zetaOld[k][l] + 0.5*dt*rhs;
+	 nodes[k][l].rhs = rhs;
+	} 
+ }
+ cout << "rk2" << endl;
+ t = tOld + dt/2;
+ //Grid::solve_poisson(solver,tol,omega);
+ //Grid::set_zeta_bc();
+ for (int k = 1 ; k <= nx - 2; k++)
+ {
+	for (int l = 1 ; l <= ny - 2 ; l++)
+	{ 
+	 rhs = Grid::solve_dzeta_dt(k,l,reynolds); 
+	 nodes[k][l].zeta = zetaOld[k][l] + 0.5*dt*rhs;
+	 nodes[k][l].rhs = nodes[k][l].rhs + 2*rhs;
+	}
 }
-
-
-double zetaT = Grid::get("zeta",k,l);
-double ans = zetaT + Grid::solve_dzeta_dt(k,l,visc);
-t = t + dt;
-return ans;
-*/
+  cout << "rk3" << endl;
+ //Grid::solve_poisson(solver,tol,omega);
+ //Grid::set_zeta_bc();
+ for (int k = 1 ; k <= nx - 2; k++)
+ {
+	for (int l = 1 ; l <= ny - 2 ; l++)
+	{ 
+	 rhs = Grid::solve_dzeta_dt(k,l,reynolds);
+	 nodes[k][l].zeta = zetaOld[k][l] + dt*rhs;
+	 nodes[k][l].rhs = nodes[k][l].rhs + 2*rhs;
+	} 
+ }
+  cout << "rk4" << endl;
+ t = tOld + dt;
+ //Grid::solve_poisson(solver,tol,omega);
+ //Grid::set_zeta_bc();
+ for (int k = 1 ; k <= nx - 2; k++)
+ {
+	for (int l = 1 ; l <= ny - 2 ; l++)
+	{
+	 rhs = Grid::solve_dzeta_dt(k,l,reynolds); 
+	 nodes[k][l].rhs = nodes[k][l].rhs + rhs;
+	 nodes[k][l].zeta = zetaOld[k][l] + dt*nodes[k][l].rhs/6;
+	} 
+ }
+  cout << "rk5" << endl;
 }
 
 
 // SOLVE NON DIM. VORTICITY EQUATION FOR ZETA(t+1)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void Grid::solve_zeta_tp1(double dt, double reynolds)
+int Grid::solve_zeta_tp1(double dt, double reynolds)
 {
+double dZeta;
+double defSteady = pow(10,-8);
+int    ss = 1;
+
  for (int k = 1 ; k <= nx - 2; k++)
  {
 	for (int l = 1 ; l <= ny - 2 ; l++)
@@ -757,6 +826,13 @@ void Grid::solve_zeta_tp1(double dt, double reynolds)
  {
 	for (int l = 1 ; l <= ny - 2 ; l++)
 	{
+	 dZeta = abs(nodes[k][l].zeta - nodes[k][l].zetaTp1);
+	 
+	 if (dZeta > defSteady)
+	  {
+	   ss = 0;
+	  }
+
 	 nodes[k][l].zeta = nodes[k][l].zetaTp1;
 	}
  }
@@ -764,62 +840,116 @@ void Grid::solve_zeta_tp1(double dt, double reynolds)
 
 // increment time
  t = t + dt;
+return ss;
+
 
 
 }
 
 
+// SOLVE VORTICITY EQUATION FOR ZETA(t+1)
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+void Grid::solve(double ti, double tf, double reynolds, double cfl, double tol, double omega, double dumpPeriod,std::string solver ,std::string filenameSpec)
+{
+ t = ti;
 
+ double counter = 0;
+ int    save    = 0;
+ double dt      = 0;
+ int    ss      = 0;
+  if (dx >= dy)
+  {
+   dt = cfl*dx/uRef;
+  }
+ else
+  {
+   dt = cfl*dy/uRef;
+  }
+ 
+ // create filename for t=0 and save initial grid
+ std::ostringstream os;
+ os << filenameSpec << "Trend" << counter << ".vti";
+ std::string filename = os.str();
+ Grid::save_vtk_field(filename);
+ /*
+ std::ostringstream os2;
+ os2 << filenameSpec << "TrendInfo-Re:" << reynolds << "dt " << dt << ".txt";
+ std:string filename2 = os2.str();
+ Grid::save_txt_field(filename);
+ */
+ while (t <= tf)
+ {
+  counter ++;
+  Grid::solve_zeta_tp1(dt,reynolds);
+  //Grid::rk4_vorticity(dt,reynolds,solver,tol,omega);
+  Grid::solve_poisson(solver,tol,omega);
+  Grid::set_zeta_bc();
+  save = fmod(counter,dumpPeriod); 
+  if(save == 0)
+  {
+   std::ostringstream os;
+   os << filenameSpec << "Trend" << counter << ".vti";
+   filename = os.str();
+   Grid::save_vtk_field(filename);
+  }
+ 
+ }
+
+ Grid::save_centerline_velocity(filenameSpec,reynolds);
+
+}
 
 
 
 
 // SOLVE VORTICITY EQUATION FOR ZETA(t+1)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void Grid::solve(double ti, double tf, double reynolds, double cfl, double tol, double omega, double dumpPeriod, std::string filenameSpec)
+void Grid::solve(double ti, double reynolds, double cfl, double tol, double omega, double dumpPeriod,std::string solver ,std::string filenameSpec)
 {
-//Grid::solve_poisson(tol,omega);
-Grid::set_zeta_bc();
-t = ti;
-double counter = 0;
-int save    = 0;
-double dt   = 0;
- if (dx >= dy)
- {
-  dt = cfl*dx/uRef;
- }
-else
- {
-  dt = cfl*dy/uRef;
- }
-
-// create filename for t=0 and save initial grid
-  std::ostringstream os;
-  os << filenameSpec << counter << ".vti";
-  // "_dt:" << dt << 
-  std::string filename = os.str();
-  Grid::save_vtk_field(filename);
-
-
-while (t <= tf)
-{
- counter ++;
- Grid::solve_zeta_tp1(dt,reynolds);
- Grid::solve_poisson(tol,omega);
- Grid::set_zeta_bc();
- save = fmod(counter,dumpPeriod); 
- if(save == 0)
- {
-  std::ostringstream os;
-  os << filenameSpec << counter << ".vti";
-  filename = os.str();
-  Grid::save_vtk_field(filename);
-//  Grid::save_txt_field(filename);
- }
+ t = ti;
+ double counter = 0;
+ int    save    = 0;
+ double dt      = 0;
+ int    ss      = 0;
+  if (dx >= dy)
+  {
+   dt = cfl*dx/uRef;
+  }
+ else
+  {
+   dt = cfl*dy/uRef;
+  }
  
-}
+ // create filename for t=0 and save initial grid
+ std::ostringstream os;
+ os << filenameSpec << "Trend" << counter << ".vti";
+ std::string filename = os.str();
+ Grid::save_vtk_field(filename);
+ 
+ std::ostringstream os2;
+ os2 << filenameSpec << "TrendInfo-Re:" << reynolds << "dt " << dt << ".txt";
+ std:string filename2 = os2.str();
+ Grid::save_txt_field(filename);
 
+ while (ss == 0)
+ {
+  counter ++;
+  ss = Grid::solve_zeta_tp1(dt,reynolds);
+  //Grid::rk4_vorticity(dt,reynolds,solver,tol,omega);
+  Grid::solve_poisson(solver,tol,omega);
+  Grid::set_zeta_bc();
+  save = fmod(counter,dumpPeriod); 
+  if(save == 0)
+  {
+   std::ostringstream os;
+   os << filenameSpec << "Trend" << counter << ".vti";
+   filename = os.str();
+   Grid::save_vtk_field(filename);
+  }
+ 
+ }
 
+ Grid::save_centerline_velocity(filenameSpec,reynolds);
 
 }
 
@@ -859,8 +989,35 @@ void Grid::save_grid_params(std::string filenameSpec)
 
 }
 
+void Grid::save_centerline_velocity(std::string filenameSpec,double reynolds)
+{
+	// generate filename
+	std::ostringstream osUY;
+	osUY << filenameSpec << "Suleman-uy-Re0" << reynolds << "-0" << nx << "x0" << ny << ".dat";
+	std::string filenameUY = osUY.str();
 
+	ofstream myfileUY;
+	myfileUY.open (filenameUY.c_str(),ios::app);
+        int kC = (nx + 1)/2 - 1;
+	for (int l = 0 ; l <= ny - 1 ; l++)
+	{
+	 myfileUY << nodes[kC][l].pos[1] << " " << nodes[kC][l].u*uRef << endl;
+	}
+	myfileUY.close();
 
+	std::ostringstream osVX;
+	osVX << filenameSpec << "Suleman-vx-Re0" << reynolds << "-0" << nx << "x0" << ny << ".dat";
+	std::string filenameVX = osVX.str();
+
+	ofstream myfileVX;
+	myfileVX.open (filenameVX.c_str(),ios::app);
+        int lC = (ny + 1)/2 - 1;
+	for (int k = 0 ; k <= ny - 1 ; k++)
+	{
+	 myfileVX << nodes[k][lC].pos[0] << " " << nodes[k][lC].v*uRef << endl;
+	}
+	myfileVX.close();
+}
 
 
 void Grid::save_txt_field(std::string filenameSpec)

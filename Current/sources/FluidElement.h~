@@ -3,7 +3,7 @@ class FluidElement
 friend class Grid;
 protected:
 	double pos[3];
-	double psi, zeta, zetaTp1 u, v, w, rhsPsi, psiManu;
+	double psi, zeta, zetaTp1, u, v, w, rhsPsi, psiManu;
 
 public:
 	//constructor	

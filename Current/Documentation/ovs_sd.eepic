@@ -1,0 +1,226 @@
+% GNUPLOT: LaTeX picture using EEPIC macros
+\setlength{\unitlength}{0.120450pt}
+\begin{picture}(3000,1800)(0,0)
+\footnotesize
+\color{black}
+\thicklines \path(472,265)(513,265)
+\thicklines \path(2876,265)(2835,265)
+\put(431,265){\makebox(0,0)[r]{ 1e-05}}
+\color{black}
+\thicklines \path(472,342)(492,342)
+\thicklines \path(2876,342)(2856,342)
+\thicklines \path(472,445)(492,445)
+\thicklines \path(2876,445)(2856,445)
+\thicklines \path(472,497)(492,497)
+\thicklines \path(2876,497)(2856,497)
+\thicklines \path(472,522)(513,522)
+\thicklines \path(2876,522)(2835,522)
+\put(431,522){\makebox(0,0)[r]{ 0.0001}}
+\color{black}
+\thicklines \path(472,599)(492,599)
+\thicklines \path(2876,599)(2856,599)
+\thicklines \path(472,702)(492,702)
+\thicklines \path(2876,702)(2856,702)
+\thicklines \path(472,754)(492,754)
+\thicklines \path(2876,754)(2856,754)
+\thicklines \path(472,779)(513,779)
+\thicklines \path(2876,779)(2835,779)
+\put(431,779){\makebox(0,0)[r]{ 0.001}}
+\color{black}
+\thicklines \path(472,856)(492,856)
+\thicklines \path(2876,856)(2856,856)
+\thicklines \path(472,959)(492,959)
+\thicklines \path(2876,959)(2856,959)
+\thicklines \path(472,1011)(492,1011)
+\thicklines \path(2876,1011)(2856,1011)
+\thicklines \path(472,1036)(513,1036)
+\thicklines \path(2876,1036)(2835,1036)
+\put(431,1036){\makebox(0,0)[r]{ 0.01}}
+\color{black}
+\thicklines \path(472,1113)(492,1113)
+\thicklines \path(2876,1113)(2856,1113)
+\thicklines \path(472,1216)(492,1216)
+\thicklines \path(2876,1216)(2856,1216)
+\thicklines \path(472,1268)(492,1268)
+\thicklines \path(2876,1268)(2856,1268)
+\thicklines \path(472,1293)(513,1293)
+\thicklines \path(2876,1293)(2835,1293)
+\put(431,1293){\makebox(0,0)[r]{ 0.1}}
+\color{black}
+\thicklines \path(472,1370)(492,1370)
+\thicklines \path(2876,1370)(2856,1370)
+\thicklines \path(472,1473)(492,1473)
+\thicklines \path(2876,1473)(2856,1473)
+\thicklines \path(472,1525)(492,1525)
+\thicklines \path(2876,1525)(2856,1525)
+\thicklines \path(472,1550)(513,1550)
+\thicklines \path(2876,1550)(2835,1550)
+\put(431,1550){\makebox(0,0)[r]{ 1}}
+\color{black}
+\thicklines \path(472,265)(472,306)
+\thicklines \path(472,1550)(472,1509)
+\put(472,182){\makebox(0,0){ 0.001}}
+\color{black}
+\thicklines \path(713,265)(713,285)
+\thicklines \path(713,1550)(713,1530)
+\thicklines \path(854,265)(854,285)
+\thicklines \path(854,1550)(854,1530)
+\thicklines \path(954,265)(954,285)
+\thicklines \path(954,1550)(954,1530)
+\thicklines \path(1032,265)(1032,285)
+\thicklines \path(1032,1550)(1032,1530)
+\thicklines \path(1096,265)(1096,285)
+\thicklines \path(1096,1550)(1096,1530)
+\thicklines \path(1149,265)(1149,285)
+\thicklines \path(1149,1550)(1149,1530)
+\thicklines \path(1196,265)(1196,285)
+\thicklines \path(1196,1550)(1196,1530)
+\thicklines \path(1237,265)(1237,285)
+\thicklines \path(1237,1550)(1237,1530)
+\thicklines \path(1273,265)(1273,306)
+\thicklines \path(1273,1550)(1273,1509)
+\put(1273,182){\makebox(0,0){ 0.01}}
+\color{black}
+\thicklines \path(1515,265)(1515,285)
+\thicklines \path(1515,1550)(1515,1530)
+\thicklines \path(1656,265)(1656,285)
+\thicklines \path(1656,1550)(1656,1530)
+\thicklines \path(1756,265)(1756,285)
+\thicklines \path(1756,1550)(1756,1530)
+\thicklines \path(1833,265)(1833,285)
+\thicklines \path(1833,1550)(1833,1530)
+\thicklines \path(1897,265)(1897,285)
+\thicklines \path(1897,1550)(1897,1530)
+\thicklines \path(1951,265)(1951,285)
+\thicklines \path(1951,1550)(1951,1530)
+\thicklines \path(1997,265)(1997,285)
+\thicklines \path(1997,1550)(1997,1530)
+\thicklines \path(2038,265)(2038,285)
+\thicklines \path(2038,1550)(2038,1530)
+\thicklines \path(2075,265)(2075,306)
+\thicklines \path(2075,1550)(2075,1509)
+\put(2075,182){\makebox(0,0){ 0.1}}
+\color{black}
+\thicklines \path(2316,265)(2316,285)
+\thicklines \path(2316,1550)(2316,1530)
+\thicklines \path(2457,265)(2457,285)
+\thicklines \path(2457,1550)(2457,1530)
+\thicklines \path(2557,265)(2557,285)
+\thicklines \path(2557,1550)(2557,1530)
+\thicklines \path(2635,265)(2635,285)
+\thicklines \path(2635,1550)(2635,1530)
+\thicklines \path(2698,265)(2698,285)
+\thicklines \path(2698,1550)(2698,1530)
+\thicklines \path(2752,265)(2752,285)
+\thicklines \path(2752,1550)(2752,1530)
+\thicklines \path(2798,265)(2798,285)
+\thicklines \path(2798,1550)(2798,1530)
+\thicklines \path(2839,265)(2839,285)
+\thicklines \path(2839,1550)(2839,1530)
+\thicklines \path(2876,265)(2876,306)
+\thicklines \path(2876,1550)(2876,1509)
+\put(2876,182){\makebox(0,0){ 1}}
+\color{black}
+\color{black}
+\thicklines \path(472,1550)(472,265)(2876,265)(2876,1550)(472,1550)
+\color{black}
+\put(61,907){\makebox(0,0)[l]{\shortstack{$\\e\\p\\s\\i\\l\\o\\n\\_\\{\\m\\a\\x\\}\\$}}}
+\color{black}
+\color{black}
+\put(1674,58){\makebox(0,0){delta xbar}}
+\color{black}
+\color{black}
+\put(1674,1675){\makebox(0,0){Order Verification Study for Spatial Discretizations}}
+\color{black}
+\color{red}
+\color{black}
+\put(2548,1468){\makebox(0,0)[r]{First Derivative}}
+\color{red}
+\thinlines \path(2589,1468)(2794,1468)
+\thinlines \path(2111,1318)(2111,1318)(1851,1153)(1704,1059)(1601,993)(1522,942)(1457,900)(1402,865)(1355,835)(1314,809)(1277,785)(1243,763)(1213,744)(1185,726)(1159,709)(1135,694)
+\put(2111,1318){\makebox(0,0){$\Diamond$}}
+\put(1851,1153){\makebox(0,0){$\Diamond$}}
+\put(1704,1059){\makebox(0,0){$\Diamond$}}
+\put(1601,993){\makebox(0,0){$\Diamond$}}
+\put(1522,942){\makebox(0,0){$\Diamond$}}
+\put(1457,900){\makebox(0,0){$\Diamond$}}
+\put(1402,865){\makebox(0,0){$\Diamond$}}
+\put(1355,835){\makebox(0,0){$\Diamond$}}
+\put(1314,809){\makebox(0,0){$\Diamond$}}
+\put(1277,785){\makebox(0,0){$\Diamond$}}
+\put(1243,763){\makebox(0,0){$\Diamond$}}
+\put(1213,744){\makebox(0,0){$\Diamond$}}
+\put(1185,726){\makebox(0,0){$\Diamond$}}
+\put(1159,709){\makebox(0,0){$\Diamond$}}
+\put(1135,694){\makebox(0,0){$\Diamond$}}
+\put(2691,1468){\makebox(0,0){$\Diamond$}}
+\color{blue}
+\color{black}
+\put(2548,1385){\makebox(0,0)[r]{Second Derivative}}
+\color{blue}
+\thinlines \path(2589,1385)(2794,1385)
+\thinlines \path(2111,1363)(2111,1363)(1851,1202)(1704,1109)(1601,1043)(1522,992)(1457,951)(1402,916)(1355,886)(1314,859)(1277,835)(1243,814)(1213,794)(1185,776)(1159,760)(1135,744)
+\put(2111,1363){\makebox(0,0){$+$}}
+\put(1851,1202){\makebox(0,0){$+$}}
+\put(1704,1109){\makebox(0,0){$+$}}
+\put(1601,1043){\makebox(0,0){$+$}}
+\put(1522,992){\makebox(0,0){$+$}}
+\put(1457,951){\makebox(0,0){$+$}}
+\put(1402,916){\makebox(0,0){$+$}}
+\put(1355,886){\makebox(0,0){$+$}}
+\put(1314,859){\makebox(0,0){$+$}}
+\put(1277,835){\makebox(0,0){$+$}}
+\put(1243,814){\makebox(0,0){$+$}}
+\put(1213,794){\makebox(0,0){$+$}}
+\put(1185,776){\makebox(0,0){$+$}}
+\put(1159,760){\makebox(0,0){$+$}}
+\put(1135,744){\makebox(0,0){$+$}}
+\put(2691,1385){\makebox(0,0){$+$}}
+\color{green}
+\color{black}
+\put(2548,1302){\makebox(0,0)[r]{Poisson using SOR}}
+\color{green}
+\thinlines \path(2589,1302)(2794,1302)
+\thinlines \path(2111,1035)(2111,1035)(1851,870)(1704,776)(1601,710)(1522,659)(1457,618)(1402,583)(1355,553)(1314,526)(1277,502)(1243,481)(1213,461)(1185,443)(1159,427)(1135,411)
+\put(2111,1035){\makebox(0,0){$\Box$}}
+\put(1851,870){\makebox(0,0){$\Box$}}
+\put(1704,776){\makebox(0,0){$\Box$}}
+\put(1601,710){\makebox(0,0){$\Box$}}
+\put(1522,659){\makebox(0,0){$\Box$}}
+\put(1457,618){\makebox(0,0){$\Box$}}
+\put(1402,583){\makebox(0,0){$\Box$}}
+\put(1355,553){\makebox(0,0){$\Box$}}
+\put(1314,526){\makebox(0,0){$\Box$}}
+\put(1277,502){\makebox(0,0){$\Box$}}
+\put(1243,481){\makebox(0,0){$\Box$}}
+\put(1213,461){\makebox(0,0){$\Box$}}
+\put(1185,443){\makebox(0,0){$\Box$}}
+\put(1159,427){\makebox(0,0){$\Box$}}
+\put(1135,411){\makebox(0,0){$\Box$}}
+\put(2691,1302){\makebox(0,0){$\Box$}}
+\color{magenta}
+\color{black}
+\put(2548,1219){\makebox(0,0)[r]{Poisson using ADI}}
+\color{magenta}
+\thinlines \path(2589,1219)(2794,1219)
+\thinlines \path(2111,1035)(2111,1035)(1851,870)(1704,776)(1601,710)(1522,659)(1457,618)(1402,583)(1355,553)(1314,526)(1277,502)(1243,481)(1213,461)(1185,443)(1159,427)(1135,411)
+\put(2111,1035){\makebox(0,0){$\times$}}
+\put(1851,870){\makebox(0,0){$\times$}}
+\put(1704,776){\makebox(0,0){$\times$}}
+\put(1601,710){\makebox(0,0){$\times$}}
+\put(1522,659){\makebox(0,0){$\times$}}
+\put(1457,618){\makebox(0,0){$\times$}}
+\put(1402,583){\makebox(0,0){$\times$}}
+\put(1355,553){\makebox(0,0){$\times$}}
+\put(1314,526){\makebox(0,0){$\times$}}
+\put(1277,502){\makebox(0,0){$\times$}}
+\put(1243,481){\makebox(0,0){$\times$}}
+\put(1213,461){\makebox(0,0){$\times$}}
+\put(1185,443){\makebox(0,0){$\times$}}
+\put(1159,427){\makebox(0,0){$\times$}}
+\put(1135,411){\makebox(0,0){$\times$}}
+\put(2691,1219){\makebox(0,0){$\times$}}
+\color{black}
+\thicklines \path(472,1550)(472,265)(2876,265)(2876,1550)(472,1550)
+\color{black}
+\end{picture}

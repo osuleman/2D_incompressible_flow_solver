@@ -1,0 +1,211 @@
+
+\chapter{Methods}
+
+\section{Program Structure}
+\label{sec:prog_struct}
+
+The program is implemented in C++, using object orientated programming.  The goal was to make the structure modular so that in future, a variety of problems could be solved on many different style grids, in higher dimensions.
+
+The spatial domain is discretized and stored as a grid object.  The grid class holds a fluid element object for each discrete point in the spatial domain, as well as any parameters specific to that particular grid.  The fluid element holds all variables of interest at that particular point in space, as well as its position in space.  All the variables stored at the fluid element object level are non-dimensionalized by the reference values stored in the grid object.  Since all the variables in the governing equations are stored in the fluid element, the equations being solved are non-dimensional.  
+
+The data is output using the Visualization Toolkit from Kitware.  All the scalar variables, and the velocity fields are written to a VTK file at specified dump period.  The data can be directly opened in ParaView and visualized directly.  Additionally, a text file is written out at the end of each simulation and contains a text file with the u-velocity component along the vertical centerline, and the v-velocity component along the horizontal centerline.  The program has no runtime arguments.  All the parameters are specified in the Main.cpp file. For instruction on compiling and executing the program, refer to the readme.txt in the main project folder.
+
+\section{Numerical Discretization}
+\label{sec:num_disc}
+
+The numerical schemes used to discretize the governing equations presented in Section \ref{sec:gov_eqs} are provided below.
+
+	\subsection{Spacial Discretization}
+
+The first and second spacial derivatives are discretized with second order accurate, centered schemes.  The equations for the first order derivatives are given in Equation \ref{eq:first_deriv_x} and Equation \ref{eq:first_deriv_y}.  The equations for the second order derivatives are given in Equation \ref{eq:second_deriv_x} and Equation \ref{eq:second_deriv_y}.
+
+\begin{equation} 
+\label{eq:first_deriv_x}
+\frac{\partial u}{\partial x}\bigg|_{i,j} = \frac{u_{ i+1,j} - u_{ i-1,j}}{2\Delta x} 
+\end{equation}
+
+\begin{equation} 
+\label{eq:first_deriv_y}
+\frac{\partial u}{\partial y}\bigg|_{i,j} = \frac{u_{ i,j+1} - u_{ i,j-1}}{2\Delta y}
+\end{equation}
+
+\begin{equation} 
+\label{eq:second_deriv_x}
+\frac{\partial^2 u}{\partial x^2}\bigg|_{i,j} = \frac{u_{ i+1,j} - 2 u_{ i,j} + u_{ i-1,j} }{{\Delta x}^2} 
+\end{equation}
+
+\begin{equation} 
+\label{eq:second_deriv_y}
+\frac{\partial^2 u}{\partial x^2}\bigg|_{i,j} = \frac{u_{ i,j+1} - 2 u_{ i,j} + u_{ i,j-1} }{{\Delta x}^2} 
+\end{equation}
+
+The derivative operator can be applied to any variable stored in the fluid element class.  Note that this derivative approximation is only valid for constant $\Delta x$ and $\Delta y$.
+
+
+	\subsection{Temporal Discretization}
+
+The temporal derivative is discretized with the explicit, first order accurate Euler scheme, and used to solve for the next time step, as shown in Equation \ref{eq:time_deriv}
+
+\begin{equation}
+\label{eq:time_deriv}
+u_{i,j}^{n+1} = u_{i,j}^{n} + \frac{\partial u}{\partial t}\bigg|_{i,j}^{n} \Delta t
+\end{equation}
+
+The approximation in Equation \ref{eq:time_deriv} is only first order accurate, unlike the spacial approximation.  
+
+\section{Implementation of Boundary Conditions}
+
+	
+The boundary condition for $\psi$, given in Equation \ref{eq:bc_psi}, can be directly implemented.  The boundary condition for $\zeta$ must be extracted from the no slip boundary conditions, in Equations \ref{eq:v_stationary} and \ref{eq:v_moving}, and applied to the simplified Poisson Equations in \ref{eq:zeta_horz_wall} and \ref{eq:zeta_vert_wall}. These equations are discretized with the schemes given in Section \ref{sec:num_disc}, and displayed in Equations \ref{eq:zeta_bot_wall_disc} to \ref{eq:v_right_disc}.  Also note that \ $\psi|_{wall}$ was set to zero in Equation \ref{eq:bc_psi}, allowing further simplification of the discrete equations.  Using these discrete equations, a boundary condition expression for $\zeta$ was obtained and implemented into the solver; these equations are displayed in \ref{eq:bc_zeta_bot} to \ref{eq:bc_zeta_right}.
+
+\begin{equation}
+\label{eq:zeta_bot_wall_disc} 
+\overline{\zeta}_{i,0} = - \frac{\psi_{ i,1} - 2 \psi_{ i,0} + \psi_{ i,-1} }{{\Delta y}^2}
+= \frac{\psi_{ i,1} + \psi_{ i,-1} }{{\Delta y}^2}
+\end{equation}
+
+\begin{equation}
+\label{eq:zeta_top_wall_disc} 
+\overline{\zeta}_{i,ny-1} = - \frac{\psi_{ i,ny} - 2 \psi_{ i,ny-1} + \psi_{ i,ny-2} }{{\Delta y}^2} = - \frac{\psi_{ i,ny} + \psi_{ i,ny-2} }{{\Delta y}^2}
+\end{equation}
+
+\begin{equation}
+\label{eq:zeta_left_wall_disc} 
+\overline{\zeta}_{0,j} = - \frac{\psi_{1,j} - 2 \psi_{0,j} + \psi_{-1,j} }{{\Delta x}^2} 
+= - \frac{\psi_{1,j} + \psi_{-1,j} }{{\Delta x}^2} 
+\end{equation}
+
+\begin{equation}
+\label{eq:zeta_right_wall_disc} 
+\overline{\zeta}_{nx-1,j} = - \frac{\psi_{nx,j} - 2 \psi_{nx-1,j} + \psi_{nx-2,j} }{{\Delta x}^2} =  - \frac{\psi_{nx,j} + \psi_{nx-2,j} }{{\Delta x}^2} 
+\end{equation}
+
+
+
+\begin{equation}
+\label{eq:v_bot_disc} 
+\frac{\psi_{ i,1} - \psi_{ i,-1}}{2\Delta y} = 0
+\end{equation}
+
+\begin{equation}
+\label{eq:v_top_disc} 
+\frac{\psi_{ i,ny} - \psi_{ i,ny-2}}{2\Delta y} = 1
+\end{equation}
+
+
+
+\begin{equation}
+\label{eq:v_left_disc} 
+\frac{\psi_{1,j} - \psi_{-1,j}}{2\Delta x} = 0
+\end{equation}
+
+\begin{equation}
+\label{eq:v_right_disc} 
+\frac{\psi_{nx,j} - \psi_{nx-2,j}}{2\Delta x} = 0
+\end{equation}
+
+
+
+
+\begin{equation}
+\label{eq:bc_zeta_bot} 
+\zeta_{i,0} = 2\frac{\psi_{i,1}}{\Delta y}
+\end{equation}
+
+\begin{equation}
+\label{eq:bc_zeta_top} 
+\zeta_{i,ny-1} = 2\Big( \frac{\psi_{i,ny-2}}{\Delta y}  - \Delta y \Big)
+\end{equation}
+
+
+
+\begin{equation}
+\label{eq:bc_zeta_left} 
+\zeta_{0,j} = 2\frac{\psi_{1,j}}{\Delta y}
+\end{equation}
+
+\begin{equation}
+\label{eq:bc_zeta_right} 
+\zeta_{nx-1,j} = 2\frac{\psi_{nx-2,j}}{\Delta x}
+\end{equation}
+
+
+
+\section{Solution Algorithms}
+\label{sec:sol_algo}
+
+To solve the Poisson equation, an iterative solver was required.  Two different algorithms were used, and are detailed below.
+
+	\subsection{Successive Over-Relaxation Method}
+The Successive Over-Relaxation (SOR) Method iterates through the grid, and explicitly solves for the value of the variable being solved, so that it satisfies the governing equation.  Next, the value of the variable is updated on the grid using a linear combination of the old and new value.  This calculation is shown for one single point on the grid in Equation \ref{eq:poisson_sor1} and \ref{eq:poisson_sor2}.  This process is repeated until the the difference between $\psi_{i,j,new}$ and $\psi_{i,j}$ is less than a specified tolerance, everywhere in the grid.
+
+
+\begin{equation}
+\label{eq:poisson_sor1} 
+\psi_{i,j,new} = \frac{(\psi_{i+1,j} + \psi_{i-1,j}) + (\psi_{i,j+1} + \psi_{i,j-1})\big( \frac{\Delta x}{\Delta y} \big) ^2 + \zeta_{i,j}  (\Delta x)^2}{2 \big( 1 + (\frac{\Delta x}{\Delta y})^2 \big)}
+\end{equation}
+
+
+\begin{equation}
+\label{eq:poisson_sor2} 
+\psi_{i,j} = \omega \psi_{i,j,new} + (1 - \omega) \psi_{i,j,old} 
+\end{equation}
+
+
+
+	\subsection{Alternating Direction Implicit Method}
+
+The ADI Method is an implicit numerical scheme for temporal discretization of linear equations.  Time steps are subdivided into smaller steps (2 steps for 2D ect.), and at each partial step, only terms in a single dimension are represented implicitly.  After one partial time step, the terms previously represented implicitly, are represented explicitly, and the terms in the next dimension are represented implicitly.  In doing so, a complicated block tri-diagonal linear system is avoided, and instead, the linear system being solve is tri-diagonal.  This is cheaper computationally to solve than a tri-diagonal system, and this implicit scheme has favorable stability properties, allowing larger time steps.
+
+A time derivative term was added to the Poisson Equation \ref{eq:poisson}, and the Alternating Direction Implicit (ADI) Method was used to solve for the steady state solution of this equation.  The modified Poisson Equation is given in \ref{eq:poisson_dt}.  A variable time step is used for fast convergence, and is defined in equations \ref{eq:rho_adi} to \ref{eq:p_max}.  The resulting tri-diagonal system was solved with the Thomas algorthm for tri-diagonal matrices.
+
+
+%The  discrete equation to be solved and the resulting tri-diagonal system is shown in..  The time step was incremented according to.. until steady state was reached.  Steady state is defined as..
+
+
+\begin{equation}
+\label{eq:poisson_dt} 
+\frac{\delta \overline{\psi}}{\delta \overline{t}} =
+\frac{\delta^2 \overline{\psi}}{\delta \overline{x}^2} + \frac{\delta^2 \overline{\psi}}{\delta \overline{y}^2} + \overline{\zeta}
+\end{equation}
+
+\begin{equation}
+\label{eq:poisson_adi_1} 
+ \overline{\psi}_{i,j}^{n+\frac{1}{2}} = \overline{\psi}_{i,j}^{n} +
+ \frac{Re \Delta t}{{\Delta x}^2} \big(
+ \overline{\psi}_{i+1,j}^{n+\frac{1}{2}} - 2 \overline{\psi}_{i,j}^{n+\frac{1}{2}} + \overline{\psi}_{i-1,j}^{n+\frac{1}{2}}
+ \big)  + 
+ \frac{Re \Delta t}{{\Delta y}^2} \big(
+ \overline{\psi}_{i,j+1}^{n} - 2 \overline{\psi}_{i,j}^{n} + \overline{\psi}_{i,j-1}^{n}
+ \big) + \zeta_{i,j}^{n} \Delta t
+\end{equation}
+
+
+
+
+\begin{equation}
+\label{eq:poisson_adi_2} 
+ \overline{\psi}_{i,j}^{n+1} = \overline{\psi}_{i,j}^{n+\frac{1}{2}} +
+ \frac{Re \Delta t}{{\Delta x}^2} \big(
+ \overline{\psi}_{i+1,j}^{n+\frac{1}{2}} - 2 \overline{\psi}_{i,j}^{n+\frac{1}{2}} + \overline{\psi}_{i-1,j}^{n+\frac{1}{2}}
+ \big) + 
+ \frac{Re \Delta t}{{\Delta y}^2} \big(
+ \overline{\psi}_{i,j+1}^{n+1} - 2 \overline{\psi}_{i,j}^{n+1} + \overline{\psi}_{i,j-1}^{n+1}
+ \big) + \zeta_{i,j}^{n+\frac{1}{2}} \Delta t
+\end{equation}
+
+
+\begin{equation}
+\label{eq:rho_adi} 
+\rho = \frac{{\Delta x}^2}{\Delta t}
+\end{equation}
+
+\begin{equation}
+\label{eq:rho_opt} 
+\rho  = 4\cos^2\big(\frac{\pi dx}{2}\big)\tan^2\big(\frac{\pi dx}{2}\big)^{\frac{(2p-1)}{2p_{max}}}
+\end{equation}
+
+\begin{equation}
+\label{eq:p_max} 
+p = 1,2 .. p_{max},1,2..p_{max} = \frac{\log10(\tan^2(\frac{\pi dx}{2}))}{2\log10(\sqrt2 - 1)}..
+\end{equation}

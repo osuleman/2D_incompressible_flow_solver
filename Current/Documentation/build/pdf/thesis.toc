@@ -1,0 +1,38 @@
+\changetocdepth {2}
+\select@language {english}
+\contentsline {chapter}{Contents}{iii}{section*.1}
+\contentsline {chapter}{\chapternumberline {1}Introduction}{1}{chapter.1}
+\contentsline {section}{\numberline {1.1}Governing Equations}{1}{section.1.1}
+\contentsline {section}{\numberline {1.2}Test Case}{1}{section.1.2}
+\contentsline {subsection}{\numberline {1.2.1}Boundary Conditions}{1}{subsection.1.2.1}
+\contentsline {subsection}{\numberline {1.2.2}Initial Conditions}{2}{subsection.1.2.2}
+\contentsline {subsection}{\numberline {1.2.3}Steady State Definition}{2}{subsection.1.2.3}
+\contentsline {chapter}{\chapternumberline {2}Methods}{3}{chapter.2}
+\contentsline {section}{\numberline {2.1}Program Structure}{3}{section.2.1}
+\contentsline {subsection}{\numberline {2.1.1}Classes}{3}{subsection.2.1.1}
+\contentsline {subsubsection}{Grid}{3}{section*.2}
+\contentsline {subsubsection}{Fluid Element}{3}{section*.3}
+\contentsline {section}{\numberline {2.2}Numerical Discretization}{3}{section.2.2}
+\contentsline {subsection}{\numberline {2.2.1}Spacial Discretization}{3}{subsection.2.2.1}
+\contentsline {subsection}{\numberline {2.2.2}Temporal Discretization}{4}{subsection.2.2.2}
+\contentsline {section}{\numberline {2.3}Implementation of Boundary Conditions}{4}{section.2.3}
+\contentsline {section}{\numberline {2.4}Solution Algorithms}{6}{section.2.4}
+\contentsline {subsection}{\numberline {2.4.1}Successive Over-Relaxation Method}{6}{subsection.2.4.1}
+\contentsline {subsection}{\numberline {2.4.2}Alternating Direction Implicit Method}{6}{subsection.2.4.2}
+\contentsline {chapter}{\chapternumberline {3}Results}{7}{chapter.3}
+\contentsline {section}{\numberline {3.1}Order Verification Study}{7}{section.3.1}
+\contentsline {subsection}{\numberline {3.1.1}Spacial Discretization}{7}{subsection.3.1.1}
+\contentsline {subsection}{\numberline {3.1.2}Temporal Discretization}{8}{subsection.3.1.2}
+\contentsline {section}{\numberline {3.2}Optimizing Solution Algorithm}{8}{section.3.2}
+\contentsline {subsection}{\numberline {3.2.1}Selection of Residual Tolerance}{8}{subsection.3.2.1}
+\contentsline {subsection}{\numberline {3.2.2}Selection of Relaxation Factor for SOR Solver}{9}{subsection.3.2.2}
+\contentsline {subsection}{\numberline {3.2.3}Comparison of SOR and ADI Run Time}{10}{subsection.3.2.3}
+\contentsline {section}{\numberline {3.3}Model Validation}{10}{section.3.3}
+\contentsline {subsection}{\numberline {3.3.1}Comparing Steady State Solution with Literature}{10}{subsection.3.3.1}
+\contentsline {subsubsection}{Re:100}{10}{section*.4}
+\contentsline {subsubsection}{Re:1000}{10}{section*.5}
+\contentsline {subsection}{\numberline {3.3.2}Effect of Grid Refinement on Steady State Solution}{11}{subsection.3.3.2}
+\contentsline {subsubsection}{Re:100}{11}{section*.6}
+\contentsline {subsubsection}{Re:1000}{11}{section*.7}
+\contentsline {appendix}{\chapternumberline {A}Dummy Appendix}{13}{appendix.A}
+\contentsline {chapter}{Bibliography}{15}{section*.9}

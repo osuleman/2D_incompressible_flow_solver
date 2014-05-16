@@ -70,7 +70,7 @@ void FluidElement::set_v(double vSpec)
 	v = vSpec;
 }
 
-void FluidElement::set_v(double wSpec)
+void FluidElement::set_w(double wSpec)
 {
 	w = wSpec;
 }
@@ -89,7 +89,7 @@ void FluidElement::clear()
 	u        = 0;
 	v        = 0;
 	w        = 0;
-	rhsPsi   = 0;
+	rhs   = 0;
 	psiManu  = 0;
 }
 
@@ -121,9 +121,9 @@ double FluidElement::get_w()
 	return w;
 }
 
-double FluidElement::get_rhsPsi()
+double FluidElement::get_rhs()
 {
-	return rhsPsi;
+	return rhs;
 }
 
 double FluidElement::get_psiManu()

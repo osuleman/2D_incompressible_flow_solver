@@ -248,33 +248,6 @@ Main.cpp.s:
 	cd /home/omar/Documents/Programming/C++/FCFD/Current && $(MAKE) -f sources/CMakeFiles/Main.dir/build.make sources/CMakeFiles/Main.dir/Main.cpp.s
 .PHONY : Main.cpp.s
 
-TimeStepper.o: TimeStepper.cpp.o
-.PHONY : TimeStepper.o
-
-# target to build an object file
-TimeStepper.cpp.o:
-	cd /home/omar/Documents/Programming/C++/FCFD/Current && $(MAKE) -f sources/CMakeFiles/GridRefinementStudy.dir/build.make sources/CMakeFiles/GridRefinementStudy.dir/TimeStepper.cpp.o
-	cd /home/omar/Documents/Programming/C++/FCFD/Current && $(MAKE) -f sources/CMakeFiles/Main.dir/build.make sources/CMakeFiles/Main.dir/TimeStepper.cpp.o
-.PHONY : TimeStepper.cpp.o
-
-TimeStepper.i: TimeStepper.cpp.i
-.PHONY : TimeStepper.i
-
-# target to preprocess a source file
-TimeStepper.cpp.i:
-	cd /home/omar/Documents/Programming/C++/FCFD/Current && $(MAKE) -f sources/CMakeFiles/GridRefinementStudy.dir/build.make sources/CMakeFiles/GridRefinementStudy.dir/TimeStepper.cpp.i
-	cd /home/omar/Documents/Programming/C++/FCFD/Current && $(MAKE) -f sources/CMakeFiles/Main.dir/build.make sources/CMakeFiles/Main.dir/TimeStepper.cpp.i
-.PHONY : TimeStepper.cpp.i
-
-TimeStepper.s: TimeStepper.cpp.s
-.PHONY : TimeStepper.s
-
-# target to generate assembly for a file
-TimeStepper.cpp.s:
-	cd /home/omar/Documents/Programming/C++/FCFD/Current && $(MAKE) -f sources/CMakeFiles/GridRefinementStudy.dir/build.make sources/CMakeFiles/GridRefinementStudy.dir/TimeStepper.cpp.s
-	cd /home/omar/Documents/Programming/C++/FCFD/Current && $(MAKE) -f sources/CMakeFiles/Main.dir/build.make sources/CMakeFiles/Main.dir/TimeStepper.cpp.s
-.PHONY : TimeStepper.cpp.s
-
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -298,9 +271,6 @@ help:
 	@echo "... Main.o"
 	@echo "... Main.i"
 	@echo "... Main.s"
-	@echo "... TimeStepper.o"
-	@echo "... TimeStepper.i"
-	@echo "... TimeStepper.s"
 .PHONY : help
 
 

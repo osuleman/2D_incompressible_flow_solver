@@ -38,7 +38,7 @@ dn   = dnSpec;
 */
 }
 
-void GridRefinementStudy::test_poisson(double omega, double tol)
+void GridRefinementStudy::test_poisson_sor(double tol,double omega)
 {
 
 
@@ -58,8 +58,8 @@ void GridRefinementStudy::test_poisson(double omega, double tol)
    double L  = grid.get("length");
    double W  = grid.get("width");
 
-   double xkl, ykl, psiManu, rhsPsi, psiInitial;
-   // set IC, psiManu and rhsPsi(psiManu)
+   double xkl, ykl, psiManu, rhs, psiInitial;
+   // set IC, psiManu and rhs(psiManu)
    for (int l = 0 ; l <= ny - 1 ; l++)
    { 
     for (int k = 0 ; k <= nx - 1 ; k++)	
@@ -70,8 +70,8 @@ void GridRefinementStudy::test_poisson(double omega, double tol)
      psiManu = sin(xkl*pi/L)*sin(ykl*pi/W); // this is a fake solution to psi
      grid.set("psiManu",k,l,psiManu);
 
-     rhsPsi = -pi*pi*sin(xkl*pi/L)*sin(ykl*pi/W)*(1/L/L + 1/W/W);
-     grid.set("rhsPsi",k,l,rhsPsi);
+     rhs = -pi*pi*sin(xkl*pi/L)*sin(ykl*pi/W)*(1/L/L + 1/W/W);
+     grid.set("zeta",k,l,-rhs);
 
      psiInitial = cos(xkl*pi/L)*cos(ykl*pi/W);
      grid.set("psi",k,l,psiInitial);
@@ -79,22 +79,84 @@ void GridRefinementStudy::test_poisson(double omega, double tol)
 
    }
    // set BC
-   grid.set_psi_bc("vel",psiLbc, psiRbc, psiTbc, psiBbc);
+   grid.set_psi_bc("diri",psiLbc, psiRbc, psiTbc, psiBbc);
    // solve poisson eq
-   grid.test_poisson(tol,omega);
+   grid.solve_poisson("sor",tol,omega);
+   grid.calc_psi_error();
  
-std::string filenameSpec = "TestPoissonGRS";
+std::string filenameSpec = "Results/GRS/TestPoissonSOR";
 std::ostringstream os;
 os << filenameSpec << "_tol:" << tol << "_SOR:" << omega;
 filenameSpec = os.str();
 
-if (n == 0)
+ if (n == 0)
+ {
+  grid.create_grid_params_header(filenameSpec);
+ }
+ grid.save_grid_params(filenameSpec);
+ }
+}
+
+
+void GridRefinementStudy::test_poisson_adi(double tol)
 {
-grid.create_grid_params_header(filenameSpec);
+
+
+ double pi = atan(1)*4;
+ double psiTbc, psiBbc,psiLbc, psiRbc;
+ 
+ //specify BC
+ psiTbc = psiBbc = psiLbc = psiRbc = 0;
+
+
+
+  for (int n = 0 ; n <= nGrids - 1; n++)
+  {
+   int nx = nMin + n*dn;
+   int ny = nx;
+   grid.set_grid(nx,ny,1.0,1.0,1.0,1.0);
+   double L  = grid.get("length");
+   double W  = grid.get("width");
+
+   double xkl, ykl, psiManu, rhs, psiInitial;
+   // set IC, psiManu and rhs(psiManu)
+   for (int l = 0 ; l <= ny - 1 ; l++)
+   { 
+    for (int k = 0 ; k <= nx - 1 ; k++)	
+    {
+     xkl     = grid.get("x",k,l);
+     ykl     = grid.get("y",k,l);
+     
+     psiManu = sin(xkl*pi/L)*sin(ykl*pi/W); // this is a fake solution to psi
+     grid.set("psiManu",k,l,psiManu);
+
+     rhs = -pi*pi*sin(xkl*pi/L)*sin(ykl*pi/W)*(1/L/L + 1/W/W);
+     grid.set("zeta",k,l,-rhs);
+
+     psiInitial = cos(xkl*pi/L)*cos(ykl*pi/W);
+     grid.set("psi",k,l,psiInitial);
+    }
+
+   }
+   // set BC
+   grid.set_psi_bc("diri",psiLbc, psiRbc, psiTbc, psiBbc);
+   // solve poisson eq
+   grid.solve_poisson_adi("adi",tol,0.0);
+   grid.calc_psi_error();
+ 
+std::string filenameSpec = "Results/GRS/TestPoissonADI";
+std::ostringstream os;
+os << filenameSpec << "_tol:" << tol;
+filenameSpec = os.str();
+
+ if (n == 0)
+ {
+  grid.create_grid_params_header(filenameSpec);
+ }
+ grid.save_grid_params(filenameSpec);
+ }
 }
-grid.save_grid_params(filenameSpec);
-}
-}
+
 
 // Calc Test First Derivative Operator
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -113,8 +175,8 @@ void GridRefinementStudy::test_derivative1()
    double L  = grid.get("length");
    double W  = grid.get("width");
 
-   double xkl, ykl, psiManu, rhsPsi, psiInitial;
-   // set IC, psiManu and rhsPsi(psiManu)
+   double xkl, ykl, psiManu, rhs, psiInitial;
+   // set IC, psiManu and rhs(psiManu)
    for (int l = 0 ; l <= ny - 1 ; l++)
    { 
     for (int k = 0 ; k <= nx - 1 ; k++)	
@@ -155,7 +217,9 @@ void GridRefinementStudy::test_derivative1()
 
    grid.calc_psi_error();
  
-   std::string filenameSpec = "TestDerivative1";
+   std::string filenameSpec = "Results/GRS/TestDerivative1";
+
+
 
 
    if (n == 0)
@@ -164,10 +228,7 @@ void GridRefinementStudy::test_derivative1()
    }
    grid.save_grid_params(filenameSpec);
 
-   if (n == nGrids-1)
-   {
-    grid.save_vtk_field(filenameSpec);
-   }
+
   }
 
 
@@ -190,8 +251,8 @@ void GridRefinementStudy::test_derivative2()
    double L  = grid.get("length");
    double W  = grid.get("width");
 
-   double xkl, ykl, psiManu, rhsPsi, psiInitial;
-   // set IC, psiManu and rhsPsi(psiManu)
+   double xkl, ykl, psiManu, rhs, psiInitial;
+   // set IC, psiManu and rhs(psiManu)
    for (int l = 0 ; l <= ny - 1 ; l++)
    { 
     for (int k = 0 ; k <= nx - 1 ; k++)	
@@ -232,7 +293,7 @@ void GridRefinementStudy::test_derivative2()
 
    grid.calc_psi_error();
  
-   std::string filenameSpec = "TestDerivative2";
+   std::string filenameSpec = "Results/GRS/TestDerivative2";
 
 
    if (n == 0)
@@ -243,7 +304,7 @@ void GridRefinementStudy::test_derivative2()
 
    if (n==nGrids-1)
    {
-    grid.save_vtk_scaler_field(filenameSpec);
+    //grid.save_vtk_field(filenameSpec);
    }
   }
 

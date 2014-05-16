@@ -1,0 +1,196 @@
+
+
+*******************************************************************************
+Mon May 12 12:48:11 2014
+
+
+FIT:    data read from "./GRS/TestDerivative1_L:1_W:1.txt" using (log($3)):(log($7))
+        format = x:z
+        #datapoints = 15
+        residuals are weighted equally (unit weight)
+
+function used for fitting: f1(x)
+fitted parameters initialized with current variable values
+
+
+
+ Iteration 0
+ WSSR        : 127.135           delta(WSSR)/WSSR   : 0
+ delta(WSSR) : 0                 limit for stopping : 1e-05
+ lambda	  : 3.06142
+
+initial set of free parameter values
+
+a1              = 1
+b1              = 1
+
+After 5 iterations the fit converged.
+final sum of squares of residuals : 0.000154243
+rel. change during last iteration : -1.77839e-13
+
+degrees of freedom    (FIT_NDF)                        : 13
+rms of residuals      (FIT_STDFIT) = sqrt(WSSR/ndf)    : 0.00344454
+variance of residuals (reduced chisquare) = WSSR/ndf   : 1.18648e-05
+
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+
+a1              = 1.99461          +/- 0.001142     (0.05727%)
+b1              = 2.31111          +/- 0.004812     (0.2082%)
+
+
+correlation matrix of the fit parameters:
+
+               a1     b1     
+a1              1.000 
+b1              0.983  1.000 
+
+
+*******************************************************************************
+Mon May 12 12:48:11 2014
+
+
+FIT:    data read from "./GRS/TestDerivative2_L:1_W:1.txt" using (log($3)):(log($7))
+        format = x:z
+        #datapoints = 15
+        residuals are weighted equally (unit weight)
+
+function used for fitting: f2(x)
+fitted parameters initialized with current variable values
+
+
+
+ Iteration 0
+ WSSR        : 92.2879           delta(WSSR)/WSSR   : 0
+ delta(WSSR) : 0                 limit for stopping : 1e-05
+ lambda	  : 3.06142
+
+initial set of free parameter values
+
+a2              = 1
+b2              = 1
+
+After 5 iterations the fit converged.
+final sum of squares of residuals : 0.00148817
+rel. change during last iteration : -4.02159e-14
+
+degrees of freedom    (FIT_NDF)                        : 13
+rms of residuals      (FIT_STDFIT) = sqrt(WSSR/ndf)    : 0.0106993
+variance of residuals (reduced chisquare) = WSSR/ndf   : 0.000114474
+
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+
+a2              = 1.98334          +/- 0.003548     (0.1789%)
+b2              = 2.71159          +/- 0.01495      (0.5512%)
+
+
+correlation matrix of the fit parameters:
+
+               a2     b2     
+a2              1.000 
+b2              0.983  1.000 
+
+
+*******************************************************************************
+Mon May 12 12:48:11 2014
+
+
+FIT:    data read from "./GRS/TestPoissonADI_tol:1e-12_L:1_W:1.txt" using (log($3)):(log($7))
+        format = x:z
+        #datapoints = 15
+        residuals are weighted equally (unit weight)
+
+function used for fitting: f3(x)
+fitted parameters initialized with current variable values
+
+
+
+ Iteration 0
+ WSSR        : 436.357           delta(WSSR)/WSSR   : 0
+ delta(WSSR) : 0                 limit for stopping : 1e-05
+ lambda	  : 3.06142
+
+initial set of free parameter values
+
+a3              = 1
+b3              = 1
+
+After 5 iterations the fit converged.
+final sum of squares of residuals : 0.000203012
+rel. change during last iteration : -4.08555e-14
+
+degrees of freedom    (FIT_NDF)                        : 13
+rms of residuals      (FIT_STDFIT) = sqrt(WSSR/ndf)    : 0.00395174
+variance of residuals (reduced chisquare) = WSSR/ndf   : 1.56163e-05
+
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+
+a3              = 1.99383          +/- 0.001311     (0.06573%)
+b3              = -0.223433        +/- 0.005521     (2.471%)
+
+
+correlation matrix of the fit parameters:
+
+               a3     b3     
+a3              1.000 
+b3              0.983  1.000 
+
+
+*******************************************************************************
+Mon May 12 12:49:16 2014
+
+
+FIT:    data read from "./GRS/TestPoissonSOR_tol:1e-12_SOR:1_L:1_W:1.txt" using 3:7
+        format = x:z
+        #datapoints = 15
+        residuals are weighted equally (unit weight)
+
+function used for fitting: f4(x)
+
+
+*******************************************************************************
+Mon May 12 12:49:55 2014
+
+
+FIT:    data read from "./GRS/TestPoissonSOR_tol:1e-12_SOR:1_L:1_W:1.txt" using (log($3)):(log($7))
+        format = x:z
+        #datapoints = 15
+        residuals are weighted equally (unit weight)
+
+function used for fitting: f4(x)
+fitted parameters initialized with current variable values
+
+
+
+ Iteration 0
+ WSSR        : 436.358           delta(WSSR)/WSSR   : 0
+ delta(WSSR) : 0                 limit for stopping : 1e-05
+ lambda	  : 3.06142
+
+initial set of free parameter values
+
+a4              = 1
+b4              = 1
+
+After 5 iterations the fit converged.
+final sum of squares of residuals : 0.000203419
+rel. change during last iteration : -1.56966e-13
+
+degrees of freedom    (FIT_NDF)                        : 13
+rms of residuals      (FIT_STDFIT) = sqrt(WSSR/ndf)    : 0.0039557
+variance of residuals (reduced chisquare) = WSSR/ndf   : 1.56476e-05
+
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+
+a4              = 1.99384          +/- 0.001312     (0.0658%)
+b4              = -0.223407        +/- 0.005526     (2.474%)
+
+
+correlation matrix of the fit parameters:
+
+               a4     b4     
+a4              1.000 
+b4              0.983  1.000 

@@ -1,0 +1,100 @@
+\chapter{Introduction}
+
+This report outlines the background physics, numerical methods and validation of a CFD program developed in C++ to solve the 2D incompressible Navier Stokes equation, using the Steam-Vorticity formulation.
+
+
+\section{Governing Equations}
+\label{sec:gov_eqs}
+
+The Vorticity equation \ref{eq:vorticity} is obtained by taking the curl of the incompressible Navier Stokes momentum equations.  In doing so, the pressure term is eliminated from these equations.  In 2D, the problem is greatly simplified to only two unknowns, because the vorticity only has one component.  The continuity equation can be written in terms of the other unknown, in the Stream Function \ref{eq:poisson}.  
+
+
+\begin{equation}
+\label{eq:poisson} 
+\frac{\delta^2 \overline{\psi}}{\delta \overline{x}^2} + \frac{\delta^2 \overline{\psi}}{\delta \overline{y}^2} = -\overline{\zeta}
+\end{equation}
+
+\begin{equation}
+\label{eq:vorticity} 
+              \frac { \delta \overline{\zeta}}{\delta \overline{t}} + 
+\overline{u} \frac{\delta \overline{\zeta}}{\delta \overline{x}} + 
+\overline{v} \frac{\delta \overline{\zeta}}{\delta \overline{y}} = 
+\frac{1}{Re} \Big(\frac{\delta^2 \overline{\zeta}}{\delta \overline{x}^2} + 
+\frac{\delta^2 \overline{\zeta}}{\delta \overline{y}^2} \Big)
+\end{equation}
+
+
+
+
+\noindent\begin{minipage}{.5\linewidth}
+\begin{equation}
+\label{eq:u}        
+\overline{u} =  \frac{\delta \overline{\psi}}{\delta \overline{y}} 
+\end{equation}
+\end{minipage}%
+\begin{minipage}{.5\linewidth}
+\begin{equation}
+\label{eq:v} 
+\overline{v} = - \frac{\delta \overline{\psi}}{\delta \overline{x}}
+\end{equation}
+\end{minipage}
+
+
+\section{Test Case}
+\label{sec:test_case}
+
+The problem being simulated to validate the model is shear driven cavity flow.  This problem involves laminar flow of an incompressible, viscous fluid in a square cavity, where all the walls are stationary, except for the top wall moving at a constant velocity.  The steady state data from this study will be compared to a previous study of this problem by Ghia Et. Al. \cite{Ghia1982}.
+
+	\subsection{Boundary Conditions}
+
+For all the walls, the velocity normal to the wall is zero because the mass flux at the wall must be zero, since no mass leaves or enters the control volume.  Based on this condition and Equations \ref{eq:u} and \ref{eq:v}, $\psi|_{wall}$ is constant in the direction parallel to the walls. Since all the walls are connected, and $\psi|_{wall}$ is constant along each wall, $\psi|_{wall}$ is the same constant for all walls. This constant was arbitrarily set to zero; it's value will not affect the vorticity or velocity field, since these quantities are functions of the derivative of $\psi$, and not $\psi$ itself. 
+
+\begin{equation}
+\label{eq:bc_psi} 
+\psi\Big|_{wall} = c = 0
+\end{equation}
+
+The Poisson Equation \ref{eq:poisson} can be simplified knowing that $\psi$ is constant when moving along the wall.  This simplification is shown in Equations \ref{eq:zeta_horz_wall} and \ref{eq:zeta_vert_wall}.
+
+\begin{equation}
+\label{eq:zeta_horz_wall} 
+\overline{\zeta}(x,0) = \overline{\zeta}(x,1)  =
+- \frac{\delta^2 \overline{\psi}}{\delta \overline{y}^2} 
+\end{equation}
+
+\begin{equation}
+\label{eq:zeta_vert_wall} 
+\overline{\zeta}(0,y) = \overline{\zeta}(1,y)  =
+- \frac{\delta^2 \overline{\psi}}{\delta \overline{x}^2} 
+\end{equation}
+
+
+The velocity parallel to the wall is equal to the wall velocity, to satisfy the no slip boundary condition.  This is expressed in Equations \ref{eq:v_stationary} to \ref{eq:v_moving}.  This second boundary condition will be applied to Equations \ref{eq:zeta_horz_wall} and \ref{eq:zeta_vert_wall} when the equations are discretized, to create a boundary condition for $\zeta$.
+
+\begin{equation}
+\label{eq:v_stationary} 
+\overline{v}(0,y,t) = \overline{v}(1,y,t) = \overline{u}(x,0,t) = 0
+\end{equation}
+
+\begin{equation}
+\label{eq:v_moving} 
+\overline{u}(x,1,t) = \frac{u}{u_{ref}} = 1
+\end{equation}
+
+
+
+
+	\subsection{Initial Conditions}
+
+Since only the steady state data is of interest, the initial conditions can be arbitrary because the solutions will converge to the same steady state values, regardless of initial conditions.  The initial conditions selected are given in Equation \ref{eq:ic_zeta} and \ref{eq:ic_psi}.
+
+\begin{equation}
+\label{eq:ic_zeta} 
+\overline{\zeta}(x,y,0) = 0
+\end{equation}
+
+\begin{equation}
+\label{eq:ic_psi} 
+\overline{\psi}(x,y,0) = 0
+\end{equation}	
+	

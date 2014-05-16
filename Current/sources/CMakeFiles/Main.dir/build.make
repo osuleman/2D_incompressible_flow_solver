@@ -49,32 +49,9 @@ include sources/CMakeFiles/Main.dir/progress.make
 # Include the compile flags for this target's objects.
 include sources/CMakeFiles/Main.dir/flags.make
 
-sources/CMakeFiles/Main.dir/TimeStepper.cpp.o: sources/CMakeFiles/Main.dir/flags.make
-sources/CMakeFiles/Main.dir/TimeStepper.cpp.o: sources/TimeStepper.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/omar/Documents/Programming/C++/FCFD/Current/CMakeFiles $(CMAKE_PROGRESS_1)
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object sources/CMakeFiles/Main.dir/TimeStepper.cpp.o"
-	cd /home/omar/Documents/Programming/C++/FCFD/Current/sources && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/Main.dir/TimeStepper.cpp.o -c /home/omar/Documents/Programming/C++/FCFD/Current/sources/TimeStepper.cpp
-
-sources/CMakeFiles/Main.dir/TimeStepper.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Main.dir/TimeStepper.cpp.i"
-	cd /home/omar/Documents/Programming/C++/FCFD/Current/sources && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/omar/Documents/Programming/C++/FCFD/Current/sources/TimeStepper.cpp > CMakeFiles/Main.dir/TimeStepper.cpp.i
-
-sources/CMakeFiles/Main.dir/TimeStepper.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Main.dir/TimeStepper.cpp.s"
-	cd /home/omar/Documents/Programming/C++/FCFD/Current/sources && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/omar/Documents/Programming/C++/FCFD/Current/sources/TimeStepper.cpp -o CMakeFiles/Main.dir/TimeStepper.cpp.s
-
-sources/CMakeFiles/Main.dir/TimeStepper.cpp.o.requires:
-.PHONY : sources/CMakeFiles/Main.dir/TimeStepper.cpp.o.requires
-
-sources/CMakeFiles/Main.dir/TimeStepper.cpp.o.provides: sources/CMakeFiles/Main.dir/TimeStepper.cpp.o.requires
-	$(MAKE) -f sources/CMakeFiles/Main.dir/build.make sources/CMakeFiles/Main.dir/TimeStepper.cpp.o.provides.build
-.PHONY : sources/CMakeFiles/Main.dir/TimeStepper.cpp.o.provides
-
-sources/CMakeFiles/Main.dir/TimeStepper.cpp.o.provides.build: sources/CMakeFiles/Main.dir/TimeStepper.cpp.o
-
 sources/CMakeFiles/Main.dir/FluidElement.cpp.o: sources/CMakeFiles/Main.dir/flags.make
 sources/CMakeFiles/Main.dir/FluidElement.cpp.o: sources/FluidElement.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/omar/Documents/Programming/C++/FCFD/Current/CMakeFiles $(CMAKE_PROGRESS_2)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/omar/Documents/Programming/C++/FCFD/Current/CMakeFiles $(CMAKE_PROGRESS_1)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object sources/CMakeFiles/Main.dir/FluidElement.cpp.o"
 	cd /home/omar/Documents/Programming/C++/FCFD/Current/sources && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/Main.dir/FluidElement.cpp.o -c /home/omar/Documents/Programming/C++/FCFD/Current/sources/FluidElement.cpp
 
@@ -97,7 +74,7 @@ sources/CMakeFiles/Main.dir/FluidElement.cpp.o.provides.build: sources/CMakeFile
 
 sources/CMakeFiles/Main.dir/Grid.cpp.o: sources/CMakeFiles/Main.dir/flags.make
 sources/CMakeFiles/Main.dir/Grid.cpp.o: sources/Grid.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/omar/Documents/Programming/C++/FCFD/Current/CMakeFiles $(CMAKE_PROGRESS_3)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/omar/Documents/Programming/C++/FCFD/Current/CMakeFiles $(CMAKE_PROGRESS_2)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object sources/CMakeFiles/Main.dir/Grid.cpp.o"
 	cd /home/omar/Documents/Programming/C++/FCFD/Current/sources && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/Main.dir/Grid.cpp.o -c /home/omar/Documents/Programming/C++/FCFD/Current/sources/Grid.cpp
 
@@ -120,7 +97,7 @@ sources/CMakeFiles/Main.dir/Grid.cpp.o.provides.build: sources/CMakeFiles/Main.d
 
 sources/CMakeFiles/Main.dir/Main.cpp.o: sources/CMakeFiles/Main.dir/flags.make
 sources/CMakeFiles/Main.dir/Main.cpp.o: sources/Main.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/omar/Documents/Programming/C++/FCFD/Current/CMakeFiles $(CMAKE_PROGRESS_4)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/omar/Documents/Programming/C++/FCFD/Current/CMakeFiles $(CMAKE_PROGRESS_3)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object sources/CMakeFiles/Main.dir/Main.cpp.o"
 	cd /home/omar/Documents/Programming/C++/FCFD/Current/sources && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/Main.dir/Main.cpp.o -c /home/omar/Documents/Programming/C++/FCFD/Current/sources/Main.cpp
 
@@ -143,7 +120,7 @@ sources/CMakeFiles/Main.dir/Main.cpp.o.provides.build: sources/CMakeFiles/Main.d
 
 sources/CMakeFiles/Main.dir/GridRefinementStudy.cpp.o: sources/CMakeFiles/Main.dir/flags.make
 sources/CMakeFiles/Main.dir/GridRefinementStudy.cpp.o: sources/GridRefinementStudy.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/omar/Documents/Programming/C++/FCFD/Current/CMakeFiles $(CMAKE_PROGRESS_5)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/omar/Documents/Programming/C++/FCFD/Current/CMakeFiles $(CMAKE_PROGRESS_4)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object sources/CMakeFiles/Main.dir/GridRefinementStudy.cpp.o"
 	cd /home/omar/Documents/Programming/C++/FCFD/Current/sources && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/Main.dir/GridRefinementStudy.cpp.o -c /home/omar/Documents/Programming/C++/FCFD/Current/sources/GridRefinementStudy.cpp
 
@@ -166,7 +143,6 @@ sources/CMakeFiles/Main.dir/GridRefinementStudy.cpp.o.provides.build: sources/CM
 
 # Object files for target Main
 Main_OBJECTS = \
-"CMakeFiles/Main.dir/TimeStepper.cpp.o" \
 "CMakeFiles/Main.dir/FluidElement.cpp.o" \
 "CMakeFiles/Main.dir/Grid.cpp.o" \
 "CMakeFiles/Main.dir/Main.cpp.o" \
@@ -175,7 +151,6 @@ Main_OBJECTS = \
 # External object files for target Main
 Main_EXTERNAL_OBJECTS =
 
-sources/Main: sources/CMakeFiles/Main.dir/TimeStepper.cpp.o
 sources/Main: sources/CMakeFiles/Main.dir/FluidElement.cpp.o
 sources/Main: sources/CMakeFiles/Main.dir/Grid.cpp.o
 sources/Main: sources/CMakeFiles/Main.dir/Main.cpp.o
@@ -374,7 +349,6 @@ sources/Main: sources/CMakeFiles/Main.dir/link.txt
 sources/CMakeFiles/Main.dir/build: sources/Main
 .PHONY : sources/CMakeFiles/Main.dir/build
 
-sources/CMakeFiles/Main.dir/requires: sources/CMakeFiles/Main.dir/TimeStepper.cpp.o.requires
 sources/CMakeFiles/Main.dir/requires: sources/CMakeFiles/Main.dir/FluidElement.cpp.o.requires
 sources/CMakeFiles/Main.dir/requires: sources/CMakeFiles/Main.dir/Grid.cpp.o.requires
 sources/CMakeFiles/Main.dir/requires: sources/CMakeFiles/Main.dir/Main.cpp.o.requires

@@ -1,0 +1,85 @@
+int main()
+{
+ double pi = atan(1)*4;
+
+ // solving on 3 grids
+ int    gridS[3]  = {33,65,129};
+ int    tolExp[3] = {-7,-8,-9};
+ double omegaS[3]  = {1.82,1.91,1.95}; 
+
+
+ //solving for 2 different reynolds numbers
+ double reynoldS[2] = {100,1000};
+
+ //lid velocity
+ double vLbc = 0;
+ double vRbc = 0;
+ double uTbc = 1;
+ double uBbc = 0;
+ double uRef = 1;
+
+ //dims
+ double l    = 1;
+ double w    = 1;
+ double lRef = l;
+
+
+ double ti = 0;
+ double tf = 300;
+ double cfl = 0.1;
+ double dumpPeriod = 500;
+ std::string filenameSpec = "Results/"; // main data storage directory
+ std::string solver = "sor"; 
+ std::string filename;
+ std::ostringstream os;
+
+ double L, W, xkl, ykl, psiManu, rhs, psiInitial,zetaInitial,omega,tol,reynolds;
+ int N, iterations;
+ Grid grid;
+
+ for (int r = 0; r <=1; r++)
+ {
+  reynolds = reynoldS[r];
+
+  for (int i = 0; i <= 2; i++)
+  {
+
+   N     = gridS[i];
+   tol   = pow(10,tolExp[i]);
+   omega = omegaS[i];
+
+  // place in correct folder
+  os.clear();
+  os.str("");
+  os << filenameSpec << "Re" << reynolds << "/N" << N << "/" ;
+  filename = os.str();
+
+   grid.set_grid(N,N,l,w,lRef,uRef);
+   grid.set_boundary_velocities(vLbc,vRbc,uTbc,uBbc);
+
+   L  = grid.get("length");
+   W  = grid.get("width");  
+
+   // set IC, psiManu and rhs(psiManu)
+   for (int l = 0 ; l <= N - 1 ; l++)
+   { 
+    for (int k = 0 ; k <= N - 1 ; k++)	
+    {
+     xkl     = grid.get("x",k,l);
+     ykl     = grid.get("y",k,l);
+
+     zetaInitial = 0;
+     grid.set("zeta",k,l,zetaInitial);
+
+     psiInitial = 0;
+     grid.set("psi",k,l,psiInitial);
+    } 
+   }// end of iteration through nodes
+
+   // set BC
+   grid.set_psi_bc("diri",0.0,0.0,0.0,0.0);
+   grid.set_zeta_bc();
+   grid.solve(ti,tf,reynolds,cfl,tol,omega,dumpPeriod,solver,filename);
+ 
+
+

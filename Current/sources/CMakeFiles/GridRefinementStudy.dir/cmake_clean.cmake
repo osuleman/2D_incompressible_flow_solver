@@ -1,5 +1,4 @@
 FILE(REMOVE_RECURSE
-  "CMakeFiles/GridRefinementStudy.dir/TimeStepper.cpp.o"
   "CMakeFiles/GridRefinementStudy.dir/FluidElement.cpp.o"
   "CMakeFiles/GridRefinementStudy.dir/Grid.cpp.o"
   "CMakeFiles/GridRefinementStudy.dir/Main.cpp.o"

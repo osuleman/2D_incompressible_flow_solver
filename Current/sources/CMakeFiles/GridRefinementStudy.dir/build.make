@@ -49,32 +49,9 @@ include sources/CMakeFiles/GridRefinementStudy.dir/progress.make
 # Include the compile flags for this target's objects.
 include sources/CMakeFiles/GridRefinementStudy.dir/flags.make
 
-sources/CMakeFiles/GridRefinementStudy.dir/TimeStepper.cpp.o: sources/CMakeFiles/GridRefinementStudy.dir/flags.make
-sources/CMakeFiles/GridRefinementStudy.dir/TimeStepper.cpp.o: sources/TimeStepper.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/omar/Documents/Programming/C++/FCFD/Current/CMakeFiles $(CMAKE_PROGRESS_1)
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object sources/CMakeFiles/GridRefinementStudy.dir/TimeStepper.cpp.o"
-	cd /home/omar/Documents/Programming/C++/FCFD/Current/sources && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/GridRefinementStudy.dir/TimeStepper.cpp.o -c /home/omar/Documents/Programming/C++/FCFD/Current/sources/TimeStepper.cpp
-
-sources/CMakeFiles/GridRefinementStudy.dir/TimeStepper.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/GridRefinementStudy.dir/TimeStepper.cpp.i"
-	cd /home/omar/Documents/Programming/C++/FCFD/Current/sources && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/omar/Documents/Programming/C++/FCFD/Current/sources/TimeStepper.cpp > CMakeFiles/GridRefinementStudy.dir/TimeStepper.cpp.i
-
-sources/CMakeFiles/GridRefinementStudy.dir/TimeStepper.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/GridRefinementStudy.dir/TimeStepper.cpp.s"
-	cd /home/omar/Documents/Programming/C++/FCFD/Current/sources && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/omar/Documents/Programming/C++/FCFD/Current/sources/TimeStepper.cpp -o CMakeFiles/GridRefinementStudy.dir/TimeStepper.cpp.s
-
-sources/CMakeFiles/GridRefinementStudy.dir/TimeStepper.cpp.o.requires:
-.PHONY : sources/CMakeFiles/GridRefinementStudy.dir/TimeStepper.cpp.o.requires
-
-sources/CMakeFiles/GridRefinementStudy.dir/TimeStepper.cpp.o.provides: sources/CMakeFiles/GridRefinementStudy.dir/TimeStepper.cpp.o.requires
-	$(MAKE) -f sources/CMakeFiles/GridRefinementStudy.dir/build.make sources/CMakeFiles/GridRefinementStudy.dir/TimeStepper.cpp.o.provides.build
-.PHONY : sources/CMakeFiles/GridRefinementStudy.dir/TimeStepper.cpp.o.provides
-
-sources/CMakeFiles/GridRefinementStudy.dir/TimeStepper.cpp.o.provides.build: sources/CMakeFiles/GridRefinementStudy.dir/TimeStepper.cpp.o
-
 sources/CMakeFiles/GridRefinementStudy.dir/FluidElement.cpp.o: sources/CMakeFiles/GridRefinementStudy.dir/flags.make
 sources/CMakeFiles/GridRefinementStudy.dir/FluidElement.cpp.o: sources/FluidElement.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/omar/Documents/Programming/C++/FCFD/Current/CMakeFiles $(CMAKE_PROGRESS_2)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/omar/Documents/Programming/C++/FCFD/Current/CMakeFiles $(CMAKE_PROGRESS_1)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object sources/CMakeFiles/GridRefinementStudy.dir/FluidElement.cpp.o"
 	cd /home/omar/Documents/Programming/C++/FCFD/Current/sources && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/GridRefinementStudy.dir/FluidElement.cpp.o -c /home/omar/Documents/Programming/C++/FCFD/Current/sources/FluidElement.cpp
 
@@ -97,7 +74,7 @@ sources/CMakeFiles/GridRefinementStudy.dir/FluidElement.cpp.o.provides.build: so
 
 sources/CMakeFiles/GridRefinementStudy.dir/Grid.cpp.o: sources/CMakeFiles/GridRefinementStudy.dir/flags.make
 sources/CMakeFiles/GridRefinementStudy.dir/Grid.cpp.o: sources/Grid.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/omar/Documents/Programming/C++/FCFD/Current/CMakeFiles $(CMAKE_PROGRESS_3)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/omar/Documents/Programming/C++/FCFD/Current/CMakeFiles $(CMAKE_PROGRESS_2)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object sources/CMakeFiles/GridRefinementStudy.dir/Grid.cpp.o"
 	cd /home/omar/Documents/Programming/C++/FCFD/Current/sources && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/GridRefinementStudy.dir/Grid.cpp.o -c /home/omar/Documents/Programming/C++/FCFD/Current/sources/Grid.cpp
 
@@ -120,7 +97,7 @@ sources/CMakeFiles/GridRefinementStudy.dir/Grid.cpp.o.provides.build: sources/CM
 
 sources/CMakeFiles/GridRefinementStudy.dir/Main.cpp.o: sources/CMakeFiles/GridRefinementStudy.dir/flags.make
 sources/CMakeFiles/GridRefinementStudy.dir/Main.cpp.o: sources/Main.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/omar/Documents/Programming/C++/FCFD/Current/CMakeFiles $(CMAKE_PROGRESS_4)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/omar/Documents/Programming/C++/FCFD/Current/CMakeFiles $(CMAKE_PROGRESS_3)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object sources/CMakeFiles/GridRefinementStudy.dir/Main.cpp.o"
 	cd /home/omar/Documents/Programming/C++/FCFD/Current/sources && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/GridRefinementStudy.dir/Main.cpp.o -c /home/omar/Documents/Programming/C++/FCFD/Current/sources/Main.cpp
 
@@ -143,7 +120,7 @@ sources/CMakeFiles/GridRefinementStudy.dir/Main.cpp.o.provides.build: sources/CM
 
 sources/CMakeFiles/GridRefinementStudy.dir/GridRefinementStudy.cpp.o: sources/CMakeFiles/GridRefinementStudy.dir/flags.make
 sources/CMakeFiles/GridRefinementStudy.dir/GridRefinementStudy.cpp.o: sources/GridRefinementStudy.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/omar/Documents/Programming/C++/FCFD/Current/CMakeFiles $(CMAKE_PROGRESS_5)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/omar/Documents/Programming/C++/FCFD/Current/CMakeFiles $(CMAKE_PROGRESS_4)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object sources/CMakeFiles/GridRefinementStudy.dir/GridRefinementStudy.cpp.o"
 	cd /home/omar/Documents/Programming/C++/FCFD/Current/sources && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/GridRefinementStudy.dir/GridRefinementStudy.cpp.o -c /home/omar/Documents/Programming/C++/FCFD/Current/sources/GridRefinementStudy.cpp
 
@@ -166,7 +143,6 @@ sources/CMakeFiles/GridRefinementStudy.dir/GridRefinementStudy.cpp.o.provides.bu
 
 # Object files for target GridRefinementStudy
 GridRefinementStudy_OBJECTS = \
-"CMakeFiles/GridRefinementStudy.dir/TimeStepper.cpp.o" \
 "CMakeFiles/GridRefinementStudy.dir/FluidElement.cpp.o" \
 "CMakeFiles/GridRefinementStudy.dir/Grid.cpp.o" \
 "CMakeFiles/GridRefinementStudy.dir/Main.cpp.o" \
@@ -175,7 +151,6 @@ GridRefinementStudy_OBJECTS = \
 # External object files for target GridRefinementStudy
 GridRefinementStudy_EXTERNAL_OBJECTS =
 
-sources/GridRefinementStudy: sources/CMakeFiles/GridRefinementStudy.dir/TimeStepper.cpp.o
 sources/GridRefinementStudy: sources/CMakeFiles/GridRefinementStudy.dir/FluidElement.cpp.o
 sources/GridRefinementStudy: sources/CMakeFiles/GridRefinementStudy.dir/Grid.cpp.o
 sources/GridRefinementStudy: sources/CMakeFiles/GridRefinementStudy.dir/Main.cpp.o
@@ -374,7 +349,6 @@ sources/GridRefinementStudy: sources/CMakeFiles/GridRefinementStudy.dir/link.txt
 sources/CMakeFiles/GridRefinementStudy.dir/build: sources/GridRefinementStudy
 .PHONY : sources/CMakeFiles/GridRefinementStudy.dir/build
 
-sources/CMakeFiles/GridRefinementStudy.dir/requires: sources/CMakeFiles/GridRefinementStudy.dir/TimeStepper.cpp.o.requires
 sources/CMakeFiles/GridRefinementStudy.dir/requires: sources/CMakeFiles/GridRefinementStudy.dir/FluidElement.cpp.o.requires
 sources/CMakeFiles/GridRefinementStudy.dir/requires: sources/CMakeFiles/GridRefinementStudy.dir/Grid.cpp.o.requires
 sources/CMakeFiles/GridRefinementStudy.dir/requires: sources/CMakeFiles/GridRefinementStudy.dir/Main.cpp.o.requires

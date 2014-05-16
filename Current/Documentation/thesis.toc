@@ -1,0 +1,30 @@
+\changetocdepth {2}
+\select@language {english}
+\contentsline {chapter}{Contents}{iii}{section*.1}
+\contentsline {chapter}{\chapternumberline {1}Introduction}{1}{chapter.1}
+\contentsline {section}{\numberline {1.1}Governing Equations}{1}{section.1.1}
+\contentsline {section}{\numberline {1.2}Test Case}{1}{section.1.2}
+\contentsline {subsection}{\numberline {1.2.1}Boundary Conditions}{2}{subsection.1.2.1}
+\contentsline {subsection}{\numberline {1.2.2}Initial Conditions}{3}{subsection.1.2.2}
+\contentsline {chapter}{\chapternumberline {2}Methods}{5}{chapter.2}
+\contentsline {section}{\numberline {2.1}Program Structure}{5}{section.2.1}
+\contentsline {section}{\numberline {2.2}Numerical Discretization}{6}{section.2.2}
+\contentsline {subsection}{\numberline {2.2.1}Spacial Discretization}{6}{subsection.2.2.1}
+\contentsline {subsection}{\numberline {2.2.2}Temporal Discretization}{6}{subsection.2.2.2}
+\contentsline {section}{\numberline {2.3}Implementation of Boundary Conditions}{7}{section.2.3}
+\contentsline {section}{\numberline {2.4}Solution Algorithms}{8}{section.2.4}
+\contentsline {subsection}{\numberline {2.4.1}Successive Over-Relaxation Method}{8}{subsection.2.4.1}
+\contentsline {subsection}{\numberline {2.4.2}Alternating Direction Implicit Method}{8}{subsection.2.4.2}
+\contentsline {chapter}{\chapternumberline {3}Results}{11}{chapter.3}
+\contentsline {section}{\numberline {3.1}Order Verification Study}{11}{section.3.1}
+\contentsline {subsection}{\numberline {3.1.1}Spacial Discretization}{11}{subsection.3.1.1}
+\contentsline {subsection}{\numberline {3.1.2}Temporal Discretization}{13}{subsection.3.1.2}
+\contentsline {section}{\numberline {3.2}Optimizing Solution Algorithm}{13}{section.3.2}
+\contentsline {subsection}{\numberline {3.2.1}Selection of Residual Tolerance}{13}{subsection.3.2.1}
+\contentsline {subsection}{\numberline {3.2.2}Selection of Relaxation Factor for SOR Solver}{13}{subsection.3.2.2}
+\contentsline {subsection}{\numberline {3.2.3}Comparison of SOR and ADI Run Time}{15}{subsection.3.2.3}
+\contentsline {section}{\numberline {3.3}Model Validation}{15}{section.3.3}
+\contentsline {subsection}{\numberline {3.3.1}Comparing Steady State Solution with Literature}{15}{subsection.3.3.1}
+\contentsline {subsection}{\numberline {3.3.2}Effect of Grid Refinement on Steady State Solution}{17}{subsection.3.3.2}
+\contentsline {chapter}{\chapternumberline {4}Conclusion}{23}{chapter.4}
+\contentsline {chapter}{Bibliography}{25}{section*.3}
